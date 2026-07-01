@@ -4,6 +4,7 @@ import Hero from './components/home/Hero';
 import RatingSection from './components/home/RatingSection';
 
 import ClassificationSection from './components/home/ClassificationSection';
+import BlogSection from './components/home/BlogSection';
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
 
         {/* Section Klasifikasi Konten */}
         <ClassificationSection />
+        
+        {/* Section Blog */}
+        <BlogSection />
       </main>
     </div>
   )
