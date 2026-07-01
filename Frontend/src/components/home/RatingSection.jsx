@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '../ui/Button';
 
 // Impor ikon rating (kita gunakan aset yang sudah diunduh sebelumnya)
 import img3 from '../../assets/rating-3.png';
@@ -21,7 +20,7 @@ export default function RatingSection() {
     <section className="w-full bg-white pt-[50px] pb-[100px] flex flex-col items-center z-20 relative">
       
       {/* Title & Subtitle */}
-      <div className="flex flex-col gap-0 items-center text-center px-4 max-w-[1235px] mx-auto w-full">
+      <div className="flex flex-col gap-[10px] items-center text-center px-4 max-w-[1235px] mx-auto w-full">
         <h2 className="text-[47px] font-extrabold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-b from-dblue-start to-dblue-end">
           Cek Gim Berdasarkan Rating
         </h2>
@@ -57,13 +56,6 @@ export default function RatingSection() {
       <p className="mt-[50px] text-[21px] font-normal text-light-black leading-[1.5] text-center max-w-[1013px] px-4">
         Mulailah dengan memilih kategori rating sesuai kebutuhan. Sistem akan menampilkan daftar genre yang tersedia pada rating tersebut beserta gim-gim yang telah diklasifikasikan, sehingga proses pencarian menjadi lebih cepat dan relevan.
       </p>
-
-      {/* Reusable Button - As Requested */}
-      <div className="mt-[48px]">
-        <Button variant="primary">
-          Mulai Cari Gim
-        </Button>
-      </div>
       
     </section>
   );

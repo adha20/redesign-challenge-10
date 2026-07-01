@@ -24,7 +24,7 @@ export default function Hero() {
           
           {/* Teks & Pencarian */}
           <div className="absolute top-[45px] left-1/2 -translate-x-1/2 flex flex-col items-center w-full z-30">
-            <div className="text-center w-full max-w-[779px] flex flex-col gap-[2px]">
+            <div className="text-center w-full max-w-[779px] flex flex-col gap-[10px]">
               <h1 className="font-extrabold text-[47px] leading-[1.2] bg-clip-text text-transparent bg-gradient-to-b from-dblue-start to-dblue-end">
                 Cek Rating Gim Anda!
               </h1>

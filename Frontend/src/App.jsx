@@ -3,6 +3,8 @@ import Hero from './components/home/Hero';
 
 import RatingSection from './components/home/RatingSection';
 
+import ClassificationSection from './components/home/ClassificationSection';
+
 function App() {
   return (
     <div className="min-h-screen bg-light-white font-sans text-light-black flex flex-col">
@@ -18,6 +20,9 @@ function App() {
 
         {/* Section Rating */}
         <RatingSection />
+
+        {/* Section Klasifikasi Konten */}
+        <ClassificationSection />
       </main>
     </div>
   )
