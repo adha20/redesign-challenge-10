@@ -21,7 +21,7 @@ export default function RatingSection() {
       
       {/* Title & Subtitle */}
       <div className="flex flex-col gap-[10px] items-center text-center px-4 max-w-[1235px] mx-auto w-full">
-        <h2 className="text-[47px] font-extrabold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-b from-dblue-start to-dblue-end">
+        <h2 className="text-[47px] font-bold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-b from-dblue-start to-dblue-end pb-[10px] -mb-[10px]">
           Cek Gim Berdasarkan Rating
         </h2>
         <p className="text-[21px] font-extralight text-light-black">
@@ -44,7 +44,7 @@ export default function RatingSection() {
                   className="w-full h-full object-cover" 
                 />
               </div>
-              <p className="text-[27px] font-extrabold text-white leading-[1.2] text-center">
+              <p className="text-[27px] font-bold text-white leading-[1.2] text-center">
                 {rating.title}
               </p>
             </div>
