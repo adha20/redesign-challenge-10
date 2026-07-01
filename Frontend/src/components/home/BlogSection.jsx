@@ -33,7 +33,7 @@ export default function BlogSection() {
       
       {/* Title & Subtitle */}
       <div className="flex flex-col gap-[10px] items-center text-center px-4 max-w-[779px] mx-auto w-full z-10">
-        <h2 className="text-[47px] font-extrabold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-b from-[#2367ce] to-[#123468] pb-[10px] -mb-[10px]">
+        <h2 className="text-[47px] font-bold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-b from-[#2367ce] to-[#123468] pb-[10px] -mb-[10px]">
           Blog Harian IGRS
         </h2>
         <p className="text-[21px] font-extralight text-light-black">
