@@ -6,6 +6,7 @@ import RatingSection from './components/home/RatingSection';
 import ClassificationSection from './components/home/ClassificationSection';
 import BlogSection from './components/home/BlogSection';
 import KpieSection from './components/home/KpieSection';
+import Footer from './components/layout/Footer';
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
         {/* Section KPIE */}
         <KpieSection />
       </main>
+
+      {/* Memanggil komponen Footer */}
+      <Footer />
     </div>
   )
 }

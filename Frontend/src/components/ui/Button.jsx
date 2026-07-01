@@ -13,6 +13,14 @@ export default function Button({
     icon: "bg-gradient-to-b from-dblue-start to-dblue-end text-white rounded-[10px] w-[45px] h-[45px]",
   };
 
+  if (props.href) {
+    return (
+      <a className={`${baseStyle} ${variants[variant] || variants.primary} ${className}`} {...props}>
+        {children}
+      </a>
+    );
+  }
+
   return (
     <button className={`${baseStyle} ${variants[variant] || variants.primary} ${className}`} {...props}>
       {children}
