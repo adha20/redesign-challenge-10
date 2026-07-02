@@ -81,7 +81,7 @@ export default function GameDetailPage() {
         </div>
 
         {/* Right Side: Floating Info Card */}
-        <div className="w-[389px] bg-white rounded-[24px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.15)] p-[32px] flex flex-col gap-[32px] shrink-0">
+        <div className="w-[389px] bg-white rounded-[24px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.15)] p-[28px] flex flex-col gap-[28px] shrink-0">
           
           {/* Rating */}
           <div className="w-full flex flex-col items-start gap-[12px]">
@@ -94,7 +94,18 @@ export default function GameDetailPage() {
             <p className="font-normal text-[21px] text-[#1a1a1a] leading-[1.2]">Klasifikasi</p>
             <div className="flex items-center justify-start gap-[12px] w-full">
                {game.klasifikasi.map((item, idx) => (
-                 <img key={idx} src={item.icon} alt={`Klasifikasi ${item.name}`} className="w-[84px] h-[84px] object-contain" title={item.name} />
+                 <div key={idx} className="relative group flex items-center justify-center cursor-pointer">
+                   <img src={item.icon} alt={`Klasifikasi ${item.name}`} className="w-[84px] h-[84px] object-contain transition-transform group-hover:scale-105" />
+                   
+                   {/* Custom Tooltip (Speech Bubble) */}
+                   <div className="absolute bottom-full mb-[10px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center bg-[#f2f2f2] rounded-[24px] px-[16px] py-[8px] shadow-[0px_2px_4px_rgba(0,0,0,0.1)] pointer-events-none whitespace-nowrap z-30">
+                     <span className="text-[#555555] text-[14px] font-normal leading-none">
+                       {item.name}
+                     </span>
+                     {/* Triangle Arrow pointing down */}
+                     <div className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-[#f2f2f2]"></div>
+                   </div>
+                 </div>
                ))}
             </div>
           </div>
