@@ -5,6 +5,10 @@ import Footer from './components/layout/Footer';
 import AboutUs from './components/about/AboutUs';
 import SearchPage from './components/search/SearchPage';
 import GameDetailPage from './components/search/GameDetailPage';
+import RecommendationPage from './components/recommendation/RecommendationPage';
+import RegisterGamePage from './components/register/RegisterGamePage';
+import LoginPage from './components/auth/LoginPage';
+import RegisterAccountPage from './components/auth/RegisterAccountPage';
 
 import Hero from './components/home/Hero';
 import RatingSection from './components/home/RatingSection';
@@ -22,8 +26,12 @@ function App() {
       <main className="w-full bg-white flex-1 flex flex-col">
         <Routes>
           <Route path="/about" element={<AboutUs />} />
+          <Route path="/rekomendasi" element={<RecommendationPage />} />
+          <Route path="/daftar-gim" element={<RegisterGamePage />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/game/:id" element={<GameDetailPage />} />
+          <Route path="/masuk" element={<LoginPage />} />
+          <Route path="/daftar" element={<RegisterAccountPage />} />
           <Route path="/" element={
             <>
               <Hero />

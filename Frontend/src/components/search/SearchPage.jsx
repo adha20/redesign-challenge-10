@@ -10,11 +10,21 @@ export default function SearchPage() {
 
   useEffect(() => {
     setSearchQuery(searchParams.get('q') || '');
+    
+    const ratingParam = searchParams.get('rating');
+    const genreParam = searchParams.get('genre');
+    const platformParam = searchParams.get('platform');
+    
+    setSelectedFilters({
+      rating: ratingParam ? ratingParam.split(',') : [],
+      genre: genreParam ? genreParam.split(',') : [],
+      platform: platformParam ? platformParam.split(',') : []
+    });
   }, [searchParams]);
   const [dropdowns, setDropdowns] = useState({
-    rating: false,
-    genre: false,
-    platform: false
+    rating: true,
+    genre: true,
+    platform: true
   });
   
   const [selectedFilters, setSelectedFilters] = useState({
@@ -34,11 +44,23 @@ export default function SearchPage() {
   const toggleFilter = (category, option) => {
     setSelectedFilters(prev => {
       const current = prev[category];
+      let newSelection;
       if (current.includes(option)) {
-        return { ...prev, [category]: current.filter(item => item !== option) };
+        newSelection = current.filter(item => item !== option);
       } else {
-        return { ...prev, [category]: [...current, option] };
+        newSelection = [...current, option];
       }
+      
+      setSearchParams(prevParams => {
+        if (newSelection.length > 0) {
+          prevParams.set(category === 'rating' ? 'rating' : category, newSelection.join(','));
+        } else {
+          prevParams.delete(category === 'rating' ? 'rating' : category);
+        }
+        return prevParams;
+      });
+      
+      return { ...prev, [category]: newSelection };
     });
   };
 
@@ -62,11 +84,14 @@ export default function SearchPage() {
           onChange={(e) => {
             const val = e.target.value;
             setSearchQuery(val);
-            if (val) {
-              setSearchParams({ q: val });
-            } else {
-              setSearchParams({});
-            }
+            setSearchParams(prev => {
+              if (val) {
+                prev.set('q', val);
+              } else {
+                prev.delete('q');
+              }
+              return prev;
+            });
           }}
           className="flex-1 bg-transparent border-none outline-none text-[21px] text-[#1a1a1a] font-normal"
         />
