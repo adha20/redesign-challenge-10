@@ -1,0 +1,252 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import Button from '../ui/Button';
+import { dummyGames } from '../../data/games';
+
+export default function SearchPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
+
+  useEffect(() => {
+    setSearchQuery(searchParams.get('q') || '');
+  }, [searchParams]);
+  const [dropdowns, setDropdowns] = useState({
+    rating: false,
+    genre: false,
+    platform: false
+  });
+  
+  const [selectedFilters, setSelectedFilters] = useState({
+    rating: [],
+    genre: [],
+    platform: []
+  });
+
+  const ratingOptions = ['3+', '7+', '13+', '15+', '18+'];
+  const genreOptions = ['Balapan', 'Edukasi', 'Fighting', 'Horror', 'Petualangan', 'Open World', 'Puzzle', 'Simulasi', 'RPG', 'Shooter', 'Survival'];
+  const platformOptions = ['Android', 'Windows', 'iOS', 'MacOS', 'Playstation'];
+
+  const toggleDropdown = (dropdownName) => {
+    setDropdowns(prev => ({ ...prev, [dropdownName]: !prev[dropdownName] }));
+  };
+
+  const toggleFilter = (category, option) => {
+    setSelectedFilters(prev => {
+      const current = prev[category];
+      if (current.includes(option)) {
+        return { ...prev, [category]: current.filter(item => item !== option) };
+      } else {
+        return { ...prev, [category]: [...current, option] };
+      }
+    });
+  };
+
+  const filteredGames = dummyGames.filter(game => {
+    const matchesSearch = game.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesRating = selectedFilters.rating.length === 0 || selectedFilters.rating.includes(game.rating.age);
+    const matchesGenre = selectedFilters.genre.length === 0 || selectedFilters.genre.some(g => game.genres.includes(g));
+    const matchesPlatform = selectedFilters.platform.length === 0 || selectedFilters.platform.some(p => game.platforms.some(gamePlatform => gamePlatform.name === p));
+    return matchesSearch && matchesRating && matchesGenre && matchesPlatform;
+  });
+
+  return (
+    <div className="w-full bg-white relative flex flex-col items-center pt-[50px] pb-[100px] min-h-screen">
+      
+      {/* Search Input Bar */}
+      <div className="w-full max-w-[709px] mx-auto h-[67px] bg-white border border-[#f0f0f0] rounded-[222px] drop-shadow-[0px_4px_2px_rgba(0,0,0,0.15)] flex items-center justify-between px-[50px] py-[10px] z-20">
+        <input 
+          type="text" 
+          placeholder="Cari gim favoritmu..."
+          value={searchQuery}
+          onChange={(e) => {
+            const val = e.target.value;
+            setSearchQuery(val);
+            if (val) {
+              setSearchParams({ q: val });
+            } else {
+              setSearchParams({});
+            }
+          }}
+          className="flex-1 bg-transparent border-none outline-none text-[21px] text-[#1a1a1a] font-normal"
+        />
+        <div className="w-[45px] h-[45px] rounded-full flex items-center justify-center shrink-0 hover:bg-gray-100 cursor-pointer transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-light-black opacity-50">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+            <path d="M21 21l-6 -6" />
+          </svg>
+        </div>
+      </div>
+
+      <div className="w-full max-w-[1080px] mx-auto mt-[80px] flex flex-col relative z-10">
+        
+        {/* Kontainer atas: Kiri (Hasil) dan Kanan (Filter) */}
+        <div className="w-full flex justify-between items-start">
+          
+          {/* Left Side: Search Results */}
+          <div className="w-[767px] flex flex-col gap-[16px] shrink-0">
+            
+            {/* Dynamic Result Cards */}
+            {filteredGames.length > 0 ? (
+              filteredGames.map(game => (
+                <div key={game.id} onClick={() => navigate(`/game/${game.id}`)} className="w-full bg-white rounded-[24px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.15)] flex items-center justify-between px-[36px] py-[20px] hover:-translate-y-1 transition-transform cursor-pointer">
+                  <div className="flex items-center gap-[36px]">
+                    <div className="w-[120px] h-[120px] rounded-[24px] border-[8px] border-[#2367ce] overflow-hidden shrink-0">
+                      <img src={game.coverImage} alt={game.title} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex flex-col gap-[4px] text-[#1a1a1a]">
+                      <h3 className="font-extrabold text-[27px] leading-[1.2]">{game.title}</h3>
+                      <p className="font-normal text-[21px] leading-[1.5]">{game.publisher}</p>
+                    </div>
+                  </div>
+                  <div className="w-[80px] h-[80px] shrink-0">
+                    <img src={game.rating.icon} alt={`Rating ${game.rating.age}`} className="w-full h-full object-contain" />
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="w-full bg-white rounded-[24px] shadow-sm flex items-center justify-center p-[40px]">
+                <p className="text-[21px] text-[#1a1a1a] font-normal">Tidak ada gim yang cocok dengan pencarian Anda.</p>
+              </div>
+            )}
+
+            <div className="w-full py-[10px] flex justify-center mt-[10px]">
+              <p className="text-[21px] text-[#1a1a1a] font-extralight leading-[1.2]">
+                {filteredGames.length > 0 ? "Anda telah mencapai akhir hasil pencarian." : ""}
+              </p>
+            </div>
+
+          </div>
+
+          {/* Right Side: Filters */}
+          <div className="w-[235px] shrink-0 flex flex-col gap-[16px]">
+            
+            <div className="w-full relative group z-30">
+              <Button 
+                onClick={() => toggleDropdown('rating')}
+                className="!w-full !px-[24px] !py-[10px] !rounded-[16px] !bg-none !bg-white !text-[#1a1a1a] !font-normal !shadow-[0px_4px_4px_0px_rgba(0,0,0,0.15)] !justify-between items-center relative z-20" style={{ backgroundImage: 'none' }}
+              >
+                <span className="text-[21px]">Rating</span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" className={`transition-transform duration-300 ${dropdowns.rating ? 'rotate-180' : ''}`}>
+                  <path d="M5 9l7 7 7-7z" />
+                </svg>
+              </Button>
+              <div className={`grid transition-all duration-300 ease-in-out ${dropdowns.rating ? 'grid-rows-[1fr] opacity-100 mt-[16px]' : 'grid-rows-[0fr] opacity-0 mt-0'}`}>
+                <div className="overflow-hidden w-full bg-white rounded-[16px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.15)]">
+                  <div className="flex flex-col py-[8px]">
+                    {ratingOptions.map(option => {
+                      const isSelected = selectedFilters.rating.includes(option);
+                      return (
+                        <button 
+                          key={option} 
+                          onClick={() => toggleFilter('rating', option)}
+                          className="w-full px-[24px] py-[12px] flex items-center justify-between group hover:bg-gray-50 transition-all"
+                        >
+                          <span className={`text-[21px] text-[#1a1a1a] font-normal transition-opacity ${isSelected ? 'opacity-100 text-[#2367ce]' : 'opacity-50 group-hover:opacity-100'}`}>{option}</span>
+                          <div className={`w-[20px] h-[20px] rounded-full border-[2px] transition-all flex items-center justify-center ${isSelected ? 'border-[#2367ce] bg-[#2367ce]' : 'border-[#1a1a1a] opacity-30 group-hover:opacity-100'}`}>
+                            {isSelected && <div className="w-[8px] h-[8px] bg-white rounded-full"></div>}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full relative group z-20">
+              <Button 
+                onClick={() => toggleDropdown('genre')}
+                className="!w-full !px-[24px] !py-[10px] !rounded-[16px] !bg-none !bg-white !text-[#1a1a1a] !font-normal !shadow-[0px_4px_4px_0px_rgba(0,0,0,0.15)] !justify-between items-center relative z-20" style={{ backgroundImage: 'none' }}
+              >
+                <span className="text-[21px]">Genre</span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" className={`transition-transform duration-300 ${dropdowns.genre ? 'rotate-180' : ''}`}>
+                  <path d="M5 9l7 7 7-7z" />
+                </svg>
+              </Button>
+              <div className={`grid transition-all duration-300 ease-in-out ${dropdowns.genre ? 'grid-rows-[1fr] opacity-100 mt-[16px]' : 'grid-rows-[0fr] opacity-0 mt-0'}`}>
+                <div className="overflow-hidden w-full bg-white rounded-[16px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.15)]">
+                  <div className="flex flex-col py-[8px]">
+                    {genreOptions.map(option => {
+                      const isSelected = selectedFilters.genre.includes(option);
+                      return (
+                        <button 
+                          key={option} 
+                          onClick={() => toggleFilter('genre', option)}
+                          className="w-full px-[24px] py-[12px] flex items-center justify-between group hover:bg-gray-50 transition-all"
+                        >
+                          <span className={`text-[21px] text-[#1a1a1a] font-normal transition-opacity ${isSelected ? 'opacity-100 text-[#2367ce]' : 'opacity-50 group-hover:opacity-100'}`}>{option}</span>
+                          <div className={`w-[20px] h-[20px] rounded-full border-[2px] transition-all flex items-center justify-center ${isSelected ? 'border-[#2367ce] bg-[#2367ce]' : 'border-[#1a1a1a] opacity-30 group-hover:opacity-100'}`}>
+                            {isSelected && <div className="w-[8px] h-[8px] bg-white rounded-full"></div>}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full relative group z-10">
+              <Button 
+                onClick={() => toggleDropdown('platform')}
+                className="!w-full !px-[24px] !py-[10px] !rounded-[16px] !bg-none !bg-white !text-[#1a1a1a] !font-normal !shadow-[0px_4px_4px_0px_rgba(0,0,0,0.15)] !justify-between items-center relative z-20" style={{ backgroundImage: 'none' }}
+              >
+                <span className="text-[21px]">Platform</span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" className={`transition-transform duration-300 ${dropdowns.platform ? 'rotate-180' : ''}`}>
+                  <path d="M5 9l7 7 7-7z" />
+                </svg>
+              </Button>
+              <div className={`grid transition-all duration-300 ease-in-out ${dropdowns.platform ? 'grid-rows-[1fr] opacity-100 mt-[16px]' : 'grid-rows-[0fr] opacity-0 mt-0'}`}>
+                <div className="overflow-hidden w-full bg-white rounded-[16px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.15)]">
+                  <div className="flex flex-col py-[8px]">
+                    {platformOptions.map(option => {
+                      const isSelected = selectedFilters.platform.includes(option);
+                      return (
+                        <button 
+                          key={option} 
+                          onClick={() => toggleFilter('platform', option)}
+                          className="w-full px-[24px] py-[12px] flex items-center justify-between group hover:bg-gray-50 transition-all"
+                        >
+                          <span className={`text-[21px] text-[#1a1a1a] font-normal transition-opacity ${isSelected ? 'opacity-100 text-[#2367ce]' : 'opacity-50 group-hover:opacity-100'}`}>{option}</span>
+                          <div className={`w-[20px] h-[20px] rounded-full border-[2px] transition-all flex items-center justify-center ${isSelected ? 'border-[#2367ce] bg-[#2367ce]' : 'border-[#1a1a1a] opacity-30 group-hover:opacity-100'}`}>
+                            {isSelected && <div className="w-[8px] h-[8px] bg-white rounded-full"></div>}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Pagination dipindah ke bawah, merespon tinggi tertinggi dari kolom kiri/kanan */}
+        <div className="w-[767px] flex items-center justify-between mt-[100px]">
+          <p className="text-[21px] text-[#1a1a1a] font-extralight leading-[1.2]">
+            Menampilkan {filteredGames.length === 0 ? 0 : 1}–{Math.min(filteredGames.length, 10)} dari {filteredGames.length} data
+          </p>
+          <div className="flex items-center gap-[12px]">
+            <button className="w-[39px] h-[39px] rounded-[8px] bg-gradient-to-b from-dblue-start to-dblue-end flex items-center justify-center text-white opacity-80 hover:opacity-100 cursor-not-allowed shadow-md">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <button className="w-[39px] h-[39px] rounded-[8px] border-[3px] border-[#2367ce] flex items-center justify-center text-[21px] font-bold text-[#1a1a1a]">
+              1
+            </button>
+            <button className="w-[39px] h-[39px] rounded-[8px] bg-gradient-to-b from-dblue-start to-dblue-end flex items-center justify-center text-white opacity-80 hover:opacity-100 cursor-not-allowed shadow-md">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}

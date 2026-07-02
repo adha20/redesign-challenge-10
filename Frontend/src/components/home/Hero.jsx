@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 import StatCard from '../ui/StatCard';
 
@@ -13,6 +14,17 @@ import img62 from '../../assets/rating-18.png';
 import imgTablerSearch from '../../assets/search-icon.svg';
 
 export default function Hero() {
+  const [heroSearch, setHeroSearch] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (heroSearch.trim()) {
+      navigate(`/search?q=${encodeURIComponent(heroSearch.trim())}`);
+    } else {
+      navigate('/search');
+    }
+  };
+
   return (
     <section className="relative w-full min-h-[722px] bg-gradient-to-b from-dblue-start to-dblue-end">
       
@@ -38,9 +50,16 @@ export default function Hero() {
               <input 
                 type="text" 
                 placeholder="Cari Gim..." 
+                value={heroSearch}
+                onChange={(e) => setHeroSearch(e.target.value)}
                 className="flex-1 bg-transparent border-none outline-none text-[21px] font-normal text-light-black placeholder:text-light-black/50 h-full px-4"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearch();
+                  }
+                }}
               />
-              <button className="w-[45px] h-[45px] flex items-center justify-center shrink-0 text-light-black opacity-50">
+              <button onClick={handleSearch} className="w-[45px] h-[45px] flex items-center justify-center shrink-0 text-light-black opacity-50 cursor-pointer hover:opacity-100 transition-opacity">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                   <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
