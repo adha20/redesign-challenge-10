@@ -27,26 +27,26 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="w-full bg-white relative flex flex-col items-center pt-[50px] pb-[100px] min-h-[calc(100vh-69px)]">
+    <div className="w-full bg-white relative flex flex-col items-center pt-[30px] lg:pt-[50px] pb-[60px] lg:pb-[100px] min-h-[calc(100vh-69px)] px-[20px] lg:px-0">
       <div className="relative z-10 flex flex-col items-center w-full max-w-[1080px] mx-auto">
-        <div className="text-center flex flex-col gap-[10px] w-full max-w-[833px]">
-          <h1 className="font-extrabold text-[47px] leading-[1.2] bg-clip-text text-transparent bg-gradient-to-b from-dblue-start to-dblue-end pb-[10px] -mb-[10px]">
+        <div className="text-center flex flex-col gap-[8px] lg:gap-[10px] w-full max-w-[833px]">
+          <h1 className="font-extrabold text-[32px] lg:text-[47px] leading-[1.2] bg-clip-text text-transparent bg-gradient-to-b from-dblue-start to-dblue-end pb-[10px] -mb-[10px]">
             Masuk
           </h1>
-          <p className="font-extralight text-[21px] text-light-black leading-[1.5]">
+          <p className="font-extralight text-[16px] lg:text-[21px] text-light-black leading-[1.5]">
             Masuk ke akun IGRS untuk mengelola pendaftaran gim dan memantau proses klasifikasi
           </p>
         </div>
 
-        <form onSubmit={handleLogin} className="mt-[60px] flex flex-col items-center gap-[24px] w-full max-w-[984px]">
+        <form onSubmit={handleLogin} className="mt-[40px] lg:mt-[60px] flex flex-col items-center gap-[24px] w-full max-w-[984px]">
           {error && (
-            <div className="w-full bg-[#fde8e8] text-[#9b1c1c] border border-[#fbd5d5] px-4 py-3 rounded-md text-[18px]">
+            <div className="w-full bg-[#fde8e8] text-[#9b1c1c] border border-[#fbd5d5] px-4 py-3 rounded-md text-[16px] lg:text-[18px]">
               {error}
             </div>
           )}
 
           <div className="w-full flex flex-col gap-[8px]">
-            <label className="text-[21px] text-[#1a1a1a] font-normal leading-[1.5]">
+            <label className="text-[16px] lg:text-[21px] text-[#1a1a1a] font-normal leading-[1.5]">
               Email<span className="text-[#ce2323]">*</span>
             </label>
             <input 
@@ -55,12 +55,12 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="contoh@gmail.com"
-              className="bg-white border border-[#f0f0f0] rounded-[222px] px-[50px] py-[10px] w-full outline-none text-[21px] text-[#1a1a1a] placeholder:text-[#1a1a1a] placeholder:opacity-50 shadow-[0_6px_8px_-2px_rgba(0,0,0,0.15)] focus:border-[#2367ce]"
+              className="bg-white border border-[#f0f0f0] rounded-[222px] px-[24px] lg:px-[50px] py-[10px] w-full outline-none text-[16px] lg:text-[21px] text-[#1a1a1a] placeholder:text-[#1a1a1a] placeholder:opacity-50 shadow-[0_6px_8px_-2px_rgba(0,0,0,0.15)] focus:border-[#2367ce]"
             />
           </div>
 
           <div className="w-full flex flex-col gap-[8px]">
-            <label className="text-[21px] text-[#1a1a1a] font-normal leading-[1.5]">
+            <label className="text-[16px] lg:text-[21px] text-[#1a1a1a] font-normal leading-[1.5]">
               Kata Sandi<span className="text-[#ce2323]">*</span>
             </label>
             <input 
@@ -69,19 +69,19 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Masukkan Kata Sandi"
-              className="bg-white border border-[#f0f0f0] rounded-[222px] px-[50px] py-[10px] w-full outline-none text-[21px] text-[#1a1a1a] placeholder:text-[#1a1a1a] placeholder:opacity-50 shadow-[0_6px_8px_-2px_rgba(0,0,0,0.15)] focus:border-[#2367ce]"
+              className="bg-white border border-[#f0f0f0] rounded-[222px] px-[24px] lg:px-[50px] py-[10px] w-full outline-none text-[16px] lg:text-[21px] text-[#1a1a1a] placeholder:text-[#1a1a1a] placeholder:opacity-50 shadow-[0_6px_8px_-2px_rgba(0,0,0,0.15)] focus:border-[#2367ce]"
             />
           </div>
 
           <div className="mt-[16px] w-full flex flex-col items-center gap-[16px]">
             <Button 
               type="submit"
-              className="!w-full !justify-center !py-[16px] !rounded-[222px] !text-[21px] !font-bold shadow-md"
+              className="!w-full !justify-center !py-[12px] lg:!py-[16px] !rounded-[222px] !text-[16px] lg:!text-[21px] !font-bold shadow-md"
             >
               Masuk
             </Button>
             
-            <p className="text-[21px] text-[#1a1a1a]">
+            <p className="text-[16px] lg:text-[21px] text-[#1a1a1a]">
               Belum punya akun?{' '}
               <Link to="/daftar" className="font-bold text-[#2367ce] hover:opacity-80 transition-opacity">
                 Daftar Di Sini
