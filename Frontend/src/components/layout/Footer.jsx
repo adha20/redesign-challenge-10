@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../ui/Button';
-import logoIgrs from '../../assets/logo-igrs.png';
+import logoIgrs from '../../assets/logo-igrs.svg';
 import iconTwitter from '../../assets/icon-twitter.svg';
 import iconFacebook from '../../assets/icon-facebook.svg';
 import iconInstagram from '../../assets/icon-instagram.svg';

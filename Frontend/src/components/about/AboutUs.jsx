@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import Button from '../ui/Button';
-import logoIgrs from '../../assets/logo-igrs.png';
+import logoIgrs from '../../assets/logo-igrs.svg';
 import imgImage11 from '../../assets/about-img-1.png';
 import imgImage12 from '../../assets/about-img-2.png';
 import imgImage14 from '../../assets/about-img-3.png';

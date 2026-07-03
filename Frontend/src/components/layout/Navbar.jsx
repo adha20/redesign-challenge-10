@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import logoIgrs from '../../assets/logo-igrs.png';
+import logoIgrs from '../../assets/logo-igrs.svg';
 import iconLogout from '../../assets/icon-logout.svg';
 import Button from '../ui/Button';
 

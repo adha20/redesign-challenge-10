@@ -1,5 +1,5 @@
 import React from 'react';
-import logoIgrs from '../../assets/logo-igrs.png';
+import logoIgrs from '../../assets/logo-igrs.svg';
 
 export default function KpieSection() {
   return (
