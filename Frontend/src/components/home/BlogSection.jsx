@@ -1,32 +1,19 @@
 import React from 'react';
 import Button from '../ui/Button';
 
-// Impor gambar blog
-import imgBlog1 from '../../assets/blog-1.png';
-import imgBlog2 from '../../assets/blog-2.png';
-import imgBlog3 from '../../assets/blog-3.png';
-
 export default function BlogSection() {
-  const blogs = [
-    {
-      id: 1,
-      title: 'Dewasa Sebelum Menginjak Dewasa?',
-      desc: 'Perkembangan industri gim menghadirkan beragam pilihan hiburan yang dapat dinikmati oleh semua kalangan. Namun, di balik manfaat tersebut, terdapat tantangan yang perlu...',
-      img: imgBlog1
-    },
-    {
-      id: 2,
-      title: 'Klasifikasi Usia Gim Mobile Legends Resmi Berubah',
-      desc: 'Mobile Legends merupakan salah satu gim yang paling populer di Indonesia dan dimainkan oleh berbagai kelompok usia. Seiring dengan perkembangan konten, fitur, serta...',
-      img: imgBlog2
-    },
-    {
-      id: 3,
-      title: 'Block Blast: Gim Sederhana Pengasah Kemampuan Berpikir',
-      desc: 'Di tengah banyaknya gim bergenre aksi dan kompetitif, Block Blast hadir sebagai permainan puzzle yang menawarkan pengalaman bermain sederhana namun tetap...',
-      img: imgBlog3
-    }
-  ];
+  const [blogs, setBlogs] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch('http://localhost:5000/api/blogs')
+      .then(res => res.json())
+      .then(data => {
+        if (data.data && data.data.length > 0) {
+          setBlogs(data.data);
+        }
+      })
+      .catch(err => console.error("Error fetching blogs:", err));
+  }, []);
 
   return (
     <section className="w-full bg-white pt-[30px] lg:pt-[50px] pb-[60px] lg:pb-[100px] flex flex-col items-center relative z-0">
@@ -47,10 +34,10 @@ export default function BlogSection() {
         {/* List Blog */}
         {blogs.map((blog) => (
           <div key={blog.id} className="flex flex-col lg:flex-row gap-[16px] lg:gap-[40px] items-center lg:items-center justify-center w-full">
-            {/* Image Container dengan efek frame border biru tebal & shadow besar dari Figma */}
+            {/* Image Container dengan efek frame border tebal & shadow besar */}
             <div className="w-[90%] lg:w-[260px] aspect-video lg:aspect-auto lg:h-[146px] rounded-[16px] border-[5px] border-[#2367ce] overflow-hidden shrink-0 shadow-[0px_15px_30px_0px_rgba(0,0,0,0.5)] lg:shadow-[0px_30px_75px_0px_rgba(0,0,0,0.5)] relative bg-gradient-to-b from-[#2367ce] to-[#b5d3ff] hover:-translate-y-2 lg:hover:-translate-y-3 transition-transform duration-300 cursor-pointer">
               <img src={blog.img} alt={blog.title} loading="lazy" className="w-full h-full object-cover" />
-              {/* Overlay Gradient linier sesuai Figma */}
+              {/* Overlay Gradient linier */}
               <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(119.441deg, rgba(34, 99, 197, 0.3) 0%, rgba(206, 35, 35, 0) 100%)" }} />
             </div>
 

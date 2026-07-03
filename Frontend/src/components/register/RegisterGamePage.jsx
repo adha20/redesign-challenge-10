@@ -178,7 +178,7 @@ export default function RegisterGamePage() {
             </div>
           </div>
 
-          {/* Tautan Gim (Duplicate input in Figma, interpreted as Tautan/URL) */}
+          {/* Tautan Gim */}
           <div className="w-full lg:w-[984px] flex flex-col gap-[8px]">
             <label className="text-[16px] lg:text-[21px] text-[#1a1a1a] font-normal leading-[1.5]">
               Tautan Gim / URL <span className="text-[#ce2323]">*</span>

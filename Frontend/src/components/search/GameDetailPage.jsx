@@ -1,10 +1,38 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { getGameById } from '../../data/games';
 
 export default function GameDetailPage() {
   const { id } = useParams();
-  const game = getGameById(parseInt(id, 10) || 1); // Mengambil data game berdasarkan ID dari parameter URL
+  
+  const [game, setGame] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/games')
+      .then(res => res.json())
+      .then(data => {
+        if (data.data && data.data.length > 0) {
+          // Cari game berdasarkan ID
+          const targetGame = data.data.find(g => g.id === (parseInt(id, 10) || 1));
+          if (targetGame) {
+            // Mapping struktur data detail gim
+            const mappedGame = {
+              id: targetGame.id,
+              title: targetGame.title,
+              publisher: targetGame.publisher,
+              description: targetGame.description,
+              rating: { age: targetGame.rating.name, icon: targetGame.rating.icon_url },
+              klasifikasi: targetGame.classifications.map(d => ({ name: d.name, icon: d.icon_url })),
+              genres: targetGame.genres.map(genre => genre.name),
+              platforms: targetGame.platforms.map(p => ({ name: p.name, icon: p.icon_url })),
+              coverImage: targetGame.cover_image,
+              galleryImages: targetGame.gallery_images
+            };
+            setGame(mappedGame);
+          }
+        }
+      })
+      .catch(err => console.error("Error fetching game details:", err));
+  }, [id]);
 
   const [currentSlide, setCurrentSlide] = useState(0);
 

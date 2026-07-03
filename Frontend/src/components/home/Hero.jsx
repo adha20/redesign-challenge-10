@@ -5,11 +5,11 @@ import StatCard from '../ui/StatCard';
 import imgImage6 from '../../assets/image6.png';
 import imgImage2 from '../../assets/image2.png';
 import imgImage3 from '../../assets/image3.png';
-import img72 from '../../assets/rating-3.png';
-import img42 from '../../assets/rating-7.png';
-import img512 from '../../assets/rating-13.png';
-import img282 from '../../assets/rating-15.png';
-import img62 from '../../assets/rating-18.png';
+const img72 = 'http://localhost:5000/uploads/assets/rating-3.png';
+const img42 = 'http://localhost:5000/uploads/assets/rating-7.png';
+const img512 = 'http://localhost:5000/uploads/assets/rating-13.png';
+const img282 = 'http://localhost:5000/uploads/assets/rating-15.png';
+const img62 = 'http://localhost:5000/uploads/assets/rating-18.png';
 
 export default function Hero() {
   const [heroSearch, setHeroSearch] = useState('');

@@ -1,20 +1,23 @@
 import React from 'react';
 
-// Impor ikon rating (kita gunakan aset yang sudah diunduh sebelumnya)
-import img3 from '../../assets/rating-3.png';
-import img7 from '../../assets/rating-7.png';
-import img13 from '../../assets/rating-13.png';
-import img15 from '../../assets/rating-15.png';
-import img18 from '../../assets/rating-18.png';
-
 export default function RatingSection() {
-  const ratings = [
-    { id: '3+', src: img3, title: 'Rating 3+' },
-    { id: '7+', src: img7, title: 'Rating 7+' },
-    { id: '13+', src: img13, title: 'Rating 13+' },
-    { id: '15+', src: img15, title: 'Rating 15+' },
-    { id: '18+', src: img18, title: 'Rating 18+' },
-  ];
+  const [ratings, setRatings] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch('http://localhost:5000/api/meta/ratings')
+      .then(res => res.json())
+      .then(data => {
+        if (data.data && data.data.length > 0) {
+          const mappedRatings = data.data.map(r => ({
+            id: r.name,
+            src: r.icon_url,
+            title: `Rating ${r.name}`
+          }));
+          setRatings(mappedRatings);
+        }
+      })
+      .catch(err => console.error("Error fetching ratings:", err));
+  }, []);
 
   return (
     <section className="w-full bg-white pt-[30px] lg:pt-[50px] pb-[60px] lg:pb-[100px] flex flex-col items-center z-20 relative">

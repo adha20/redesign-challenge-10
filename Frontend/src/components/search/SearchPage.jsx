@@ -1,12 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../ui/Button';
-import { dummyGames } from '../../data/games';
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
+  const [games, setGames] = useState([]); // Inisialisasi kosong
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/games')
+      .then(res => res.json())
+      .then(data => {
+        if (data.data && data.data.length > 0) {
+          // Mapping data dari backend ke state aplikasi
+          const mappedGames = data.data.map(g => ({
+            id: g.id,
+            title: g.title,
+            publisher: g.publisher,
+            description: g.description,
+            rating: { age: g.rating.name, icon: g.rating.icon_url },
+            klasifikasi: g.classifications.map(d => ({ name: d.name, icon: d.icon_url })),
+            genres: g.genres.map(genre => genre.name),
+            platforms: g.platforms.map(p => ({ name: p.name, icon: p.icon_url })),
+            coverImage: g.cover_image,
+            galleryImages: g.gallery_images
+          }));
+          setGames(mappedGames);
+        }
+      })
+      .catch(err => console.error("Error fetching games:", err));
+  }, []);
 
   useEffect(() => {
     setSearchQuery(searchParams.get('q') || '');
@@ -41,6 +65,7 @@ export default function SearchPage() {
     setDropdowns(prev => ({ ...prev, [dropdownName]: !prev[dropdownName] }));
   };
 
+  // Menambah/menghapus opsi filter & sinkronisasi dengan URL params
   const toggleFilter = (category, option) => {
     setSelectedFilters(prev => {
       const current = prev[category];
@@ -64,7 +89,8 @@ export default function SearchPage() {
     });
   };
 
-  const filteredGames = dummyGames.filter(game => {
+  // Filter gabungan (Pencarian Teks + Rating + Genre + Platform)
+  const filteredGames = games.filter(game => {
     const matchesSearch = game.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesRating = selectedFilters.rating.length === 0 || selectedFilters.rating.includes(game.rating.age);
     const matchesGenre = selectedFilters.genre.length === 0 || selectedFilters.genre.some(g => game.genres.includes(g));
