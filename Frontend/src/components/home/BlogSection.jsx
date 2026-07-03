@@ -48,8 +48,8 @@ export default function BlogSection() {
         {blogs.map((blog) => (
           <div key={blog.id} className="flex flex-col lg:flex-row gap-[16px] lg:gap-[40px] items-center lg:items-center justify-center w-full">
             {/* Image Container dengan efek frame border biru tebal & shadow besar dari Figma */}
-            <div className="w-[90%] lg:w-[260px] aspect-video lg:aspect-auto lg:h-[146px] rounded-[16px] border-[5px] border-[#2367ce] overflow-hidden shrink-0 shadow-[0px_15px_30px_0px_rgba(0,0,0,0.5)] lg:shadow-[0px_30px_75px_0px_rgba(0,0,0,0.5)] relative bg-gradient-to-b from-[#2367ce] to-[#b5d3ff]">
-              <img src={blog.img} alt={blog.title} className="w-full h-full object-cover" />
+            <div className="w-[90%] lg:w-[260px] aspect-video lg:aspect-auto lg:h-[146px] rounded-[16px] border-[5px] border-[#2367ce] overflow-hidden shrink-0 shadow-[0px_15px_30px_0px_rgba(0,0,0,0.5)] lg:shadow-[0px_30px_75px_0px_rgba(0,0,0,0.5)] relative bg-gradient-to-b from-[#2367ce] to-[#b5d3ff] hover:-translate-y-2 lg:hover:-translate-y-3 transition-transform duration-300 cursor-pointer">
+              <img src={blog.img} alt={blog.title} loading="lazy" className="w-full h-full object-cover" />
               {/* Overlay Gradient linier sesuai Figma */}
               <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(119.441deg, rgba(34, 99, 197, 0.3) 0%, rgba(206, 35, 35, 0) 100%)" }} />
             </div>

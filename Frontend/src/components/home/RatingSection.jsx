@@ -41,6 +41,7 @@ export default function RatingSection() {
                 <img 
                   src={rating.src} 
                   alt={rating.title} 
+                  loading="lazy"
                   className="w-full h-full object-cover" 
                 />
               </div>
