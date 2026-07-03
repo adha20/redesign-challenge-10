@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import Button from '../ui/Button';
 import { getGameById } from '../../data/games';
 
 export default function GameDetailPage() {
@@ -9,6 +8,23 @@ export default function GameDetailPage() {
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  const slides = game?.galleryImages || [];
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+  }, [slides.length]);
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+  };
+
+  // Efek geser otomatis setiap 3 detik
+  useEffect(() => {
+    if (!game) return;
+    const slideInterval = setInterval(nextSlide, 3000);
+    return () => clearInterval(slideInterval);
+  }, [game, nextSlide]);
+
   if (!game) {
     return (
       <div className="w-full min-h-screen flex items-center justify-center bg-white">
@@ -16,22 +32,6 @@ export default function GameDetailPage() {
       </div>
     );
   }
-
-  const slides = game.galleryImages;
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
-
-  // Efek geser otomatis setiap 3 detik
-  React.useEffect(() => {
-    const slideInterval = setInterval(nextSlide, 3000);
-    return () => clearInterval(slideInterval);
-  }, [slides.length]);
 
   return (
     <div className="w-full bg-white relative flex flex-col items-center pt-[30px] lg:pt-[50px] pb-[60px] lg:pb-[100px] min-h-screen overflow-hidden">

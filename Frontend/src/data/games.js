@@ -1,6 +1,6 @@
 import rating3 from '../assets/rating-3.png';
 import rating7 from '../assets/rating-7.png';
-import rating13 from '../assets/rating-13.png';
+
 import rating15 from '../assets/rating-15.png';
 import rating18 from '../assets/rating-18.png';
 

@@ -103,7 +103,7 @@ export default function Navbar({ className = '' }) {
             </div>
           ) : (
             <div className="order-2 lg:order-none">
-              <Button onClick={() => navigate('/masuk')} className="!text-[14px] lg:!text-[16px] !font-extrabold !px-[16px] lg:!px-[24px] !py-[8px] lg:!py-[12px]">
+              <Button onClick={() => navigate('/masuk')} className="!text-[14px] lg:!text-[16px] !font-extrabold !px-[24px] lg:!px-[40px] !py-[6px] lg:!py-[8px]">
                 Masuk
               </Button>
             </div>
