@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Button from '../ui/Button';
 import iconUpload from '../../assets/icon-upload.svg';
 
@@ -12,6 +12,22 @@ export default function RegisterGamePage() {
     genre: [],
     platform: []
   });
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
+
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
 
   const genreOptions = ['Balapan', 'Edukasi', 'Fighting', 'Horror', 'Petualangan', 'Open World', 'Puzzle', 'Simulasi', 'RPG', 'Shooter', 'Survival'];
   const platformOptions = ['Android', 'Windows', 'iOS', 'MacOS', 'Playstation'];
@@ -175,27 +191,69 @@ export default function RegisterGamePage() {
           </div>
 
           {/* File Pendukung */}
-          <div className="w-full lg:w-[984px] flex flex-col gap-[10px] mt-[10px]">
+          <div className="w-full lg:w-[984px] flex flex-col gap-[10px] mt-[10px] items-start shrink-0">
             <label className="text-[16px] lg:text-[21px] text-[#1a1a1a] font-normal leading-[1.5]">
               Foto dan Video Gim <span className="text-[#ce2323]">*</span>
             </label>
-            <Button 
-              className="!w-full md:!w-[474px] !bg-gradient-to-b !from-[#ce2323] !to-[#681212] !border !border-[#ce2323] !rounded-[222px] !py-[12px] lg:!py-[16px] !px-[20px] lg:!px-[40px] !justify-center flex gap-[12px] lg:gap-[16px] items-center text-white"
-            >
-              <img src={iconUpload} alt="Upload" className="w-[24px] h-[24px] lg:w-[32px] lg:h-[32px]" />
-              <span className="text-[16px] lg:text-[21px] font-bold">Unggah File Pendukung</span>
-            </Button>
-            <p className="text-[14px] lg:text-[16px] text-[#1a1a1a] opacity-50 font-normal mt-[4px]">
-              File yang diperbolehkan yaitu .zip dengan besar maksimal 50 MB.
-            </p>
+            
+            <input 
+              type="file" 
+              className="hidden" 
+              ref={fileInputRef} 
+              onChange={handleFileChange}
+              accept=".zip"
+            />
+
+            {!selectedFile ? (
+              <>
+                <button 
+                  onClick={() => fileInputRef.current?.click()}
+                  className="bg-gradient-to-b border border-[#ce2323] border-solid from-[#ce2323] to-[#681212] w-full md:w-[474px] px-[24px] lg:px-[40px] py-[12px] lg:py-[16px] rounded-[222px] flex items-center justify-center gap-[12px] lg:gap-[16px] text-white hover:opacity-90 hover:scale-[1.02] hover:shadow-lg transition-all duration-300 cursor-pointer"
+                >
+                  <img src={iconUpload} alt="Upload" className="w-[24px] h-[24px] lg:w-[32px] lg:h-[32px]" />
+                  <span className="font-bold text-[16px] lg:text-[21px] leading-[1.2]">Unggah File Pendukung</span>
+                </button>
+                <p className="text-[14px] lg:text-[16px] text-[#1a1a1a] opacity-50 font-normal mt-[4px]">
+                  File yang diperbolehkan yaitu .zip dengan besar maksimal 50 MB.
+                </p>
+              </>
+            ) : (
+              <div className="flex flex-col lg:flex-row gap-[16px] lg:gap-[48px] w-full lg:items-start">
+                <div className="flex flex-col gap-[10px] w-full md:w-[474px] shrink-0">
+                  <button 
+                    onClick={() => fileInputRef.current?.click()}
+                    className="bg-white border border-[#ce2323] border-solid w-full px-[24px] lg:px-[40px] py-[12px] lg:py-[16px] rounded-[222px] flex items-center justify-center gap-[12px] lg:gap-[16px] text-[#ce2323] hover:bg-gray-50 hover:scale-[1.02] hover:shadow-lg transition-all duration-300 cursor-pointer"
+                  >
+                    <img src={iconUpload} alt="Upload" className="w-[24px] h-[24px] lg:w-[32px] lg:h-[32px]" style={{ filter: "brightness(0) saturate(100%) invert(25%) sepia(86%) saturate(2805%) hue-rotate(347deg) brightness(87%) contrast(95%)" }} />
+                    <span className="font-bold text-[16px] lg:text-[21px] leading-[1.2]">Ganti File Pendukung</span>
+                  </button>
+                  <p className="text-[14px] lg:text-[16px] text-[#1a1a1a] opacity-50 font-normal mt-[4px]">
+                    File yang diperbolehkan yaitu .zip dengan besar maksimal 50 MB.
+                  </p>
+                </div>
+                
+                <div className="flex items-center gap-[16px] lg:mt-[16px]">
+                  <p className="text-[16px] lg:text-[21px] text-[#1a1a1a] underline leading-[1.5] max-w-[200px] lg:max-w-[400px] truncate" title={selectedFile.name}>
+                    {selectedFile.name}
+                  </p>
+                  <button onClick={handleRemoveFile} className="flex items-center justify-center cursor-pointer hover:opacity-70 transition-opacity text-light-black shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-[20px] h-[20px] lg:w-[24px] lg:h-[24px]">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="15" y1="9" x2="9" y2="15"></line>
+                      <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Tombol Daftar */}
           <div className="mt-[20px] lg:mt-[30px] w-full lg:w-[984px]">
             <Button 
-              className="!w-full !justify-center !py-[12px] lg:!py-[16px] !rounded-[222px] !text-[16px] lg:text-[21px] !font-bold shadow-md"
+              className="!w-full !justify-center !py-[12px] lg:!py-[16px] !rounded-[222px] shadow-md"
             >
-              Daftar
+              <span className="font-bold text-[16px] lg:text-[21px] leading-[1.2]">Daftar</span>
             </Button>
           </div>
 
