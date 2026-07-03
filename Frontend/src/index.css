@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;700;800;900&display=swap');
+@import "tailwindcss";
 
 @theme {
   --color-light-black: #1A1A1A;
@@ -42,5 +42,11 @@
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+  .text-gradient-primary {
+    background-image: linear-gradient(to bottom, var(--color-dred-start), var(--color-dred-end));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
   }
 }
