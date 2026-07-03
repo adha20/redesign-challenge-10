@@ -58,29 +58,33 @@ const seedDatabase = async () => {
       (4, 'Survival'), (5, 'Simulasi'), (6, 'Shooter'), (7, 'Puzzle')
     `);
 
-    // 6. Insert Content Descriptors (Klasifikasi Penuh)
-    await connection.query(`INSERT INTO content_descriptors (id, name, icon_url) VALUES 
-      (1, 'Interaksi Daring', 'http://localhost:5000/uploads/assets/class-interaksi.png'),
-      (2, 'Kekerasan', 'http://localhost:5000/uploads/assets/class-kekerasan.png'),
-      (3, 'Simulasi Judi', 'http://localhost:5000/uploads/assets/class-judi.png'),
-      (4, 'Bahasa Kasar', 'http://localhost:5000/uploads/assets/class-bahasa.png'),
-      (5, 'Darah', 'http://localhost:5000/uploads/assets/class-darah.png'),
-      (6, 'Horror', 'http://localhost:5000/uploads/assets/class-horror.png'),
-      (7, 'Penampilan', 'http://localhost:5000/uploads/assets/class-penampilan.png'),
-      (8, 'Pornografi', 'http://localhost:5000/uploads/assets/class-pornografi.png'),
-      (9, 'Rokok/Alkohol', 'http://localhost:5000/uploads/assets/class-rokok.png')
-    `);
+    // 6. Insert Content Descriptors
+    const baseUrl = 'http://localhost:5000/uploads';
+    const descriptors = [
+      { id: 2, name: 'Kekerasan', desc: 'Mengandung adegan perkelahian, penyerangan, penggunaan senjata, atau tindakan yang menyebabkan cedera terhadap karakter lain.', icon: `${baseUrl}/assets/class-kekerasan.png` },
+      { id: 6, name: 'Horror', desc: 'Konten yang menampilkan unsur menakutkan, seperti makhluk menyeramkan, suasana mencekam, atau efek visual dan suara yang dapat memicu rasa takut pada pemain.', icon: `${baseUrl}/assets/class-horror.png` },
+      { id: 1, name: 'Interaksi Daring', desc: 'Gim memungkinkan pemain berkomunikasi atau berinteraksi dengan pengguna lain melalui internet, seperti fitur obrolan, permainan multipemain, atau pertukaran konten.', icon: `${baseUrl}/assets/class-interaksi.png` },
+      { id: 7, name: 'Penampilan Tokoh', desc: 'Menunjukkan adanya karakter dengan penampilan, pakaian, atau visual tertentu yang dapat memengaruhi penilaian kesesuaian konten berdasarkan kelompok usia.', icon: `${baseUrl}/assets/class-penampilan.png` },
+      { id: 8, name: 'Pornografi', desc: 'Menampilkan unsur seksual, ketelanjangan, atau materi yang mengandung muatan pornografi sehingga hanya sesuai untuk kelompok usia tertentu.', icon: `${baseUrl}/assets/class-pornografi.png` },
+      { id: 9, name: 'Rokok, Narkotika, dan Alkohol', desc: 'Mengandung penggambaran penggunaan, konsumsi, atau referensi terhadap rokok, narkotika, maupun minuman beralkohol di dalam permainan.', icon: `${baseUrl}/assets/class-rokok.png` },
+      { id: 5, name: 'Darah', desc: 'Menampilkan visual darah, luka serius, pemotongan anggota tubuh, atau tindakan ekstrem lainnya yang berpotensi mengganggu sebagian pemain.', icon: `${baseUrl}/assets/class-darah.png` },
+      { id: 4, name: 'Bahasa Kasar', desc: 'Mengandung kata-kata yang bersifat kasar, menghina, vulgar, atau tidak pantas yang digunakan dalam dialog maupun interaksi antarkarakter.', icon: `${baseUrl}/assets/class-bahasa.png` },
+      { id: 3, name: 'Simulasi Judi', desc: 'Memiliki mekanisme permainan yang menyerupai aktivitas perjudian, seperti taruhan, permainan berbasis peluang, atau sistem yang mensimulasikan praktik judi tanpa melibatkan uang asli.', icon: `${baseUrl}/assets/class-judi.png` }
+    ];
+    for (const desc of descriptors) {
+      await connection.query('INSERT INTO content_descriptors (id, name, description, icon_url) VALUES (?, ?, ?, ?)', [desc.id, desc.name, desc.desc, desc.icon]);
+    }
 
     // 7. Insert Games (10 Gim Lengkap)
     const gamesData = [
       {
         title: "Genshin Impact",
-        publisher: "HoYoverse",
+        publisher: "Cognosphere Pte. Ltd.",
         description: JSON.stringify([
-          "Genshin Impact merupakan gim open world action RPG yang memungkinkan pemain menjelajahi dunia Teyvat, menyelesaikan berbagai misi, serta melawan musuh menggunakan karakter dengan kemampuan unik.",
-          "Genshin Impact menawarkan eksplorasi dunia terbuka dengan berbagai aktivitas, seperti bertarung, menyelesaikan misi, memasak, mengumpulkan sumber daya, dan meningkatkan kemampuan karakter."
+          "Genshin Impact merupakan gim open world action RPG yang memungkinkan pemain menjelajahi dunia Teyvat, menyelesaikan berbagai misi, serta melawan musuh menggunakan karakter dengan kemampuan unik. Pemain dapat membentuk tim, meningkatkan level karakter, memperkuat senjata dan artefak, serta menghadapi berbagai tantangan untuk memperoleh hadiah dan meningkatkan Adventure Rank guna membuka konten baru.",
+          "Genshin Impact menawarkan eksplorasi dunia terbuka dengan berbagai aktivitas, seperti bertarung, menyelesaikan misi, memasak, mengumpulkan sumber daya, dan meningkatkan kemampuan karakter. Gim ini juga menghadirkan sistem pertarungan fantasi menggunakan senjata dan elemen sihir yang mengandung unsur kekerasan fantasi tanpa menampilkan visual yang realistis. Oleh karena itu, gim ini lebih sesuai dimainkan oleh pengguna pada kategori usia 13+ dengan deskriptor konten berupa Kekerasan dan Interaksi Daring, karena mendukung permainan secara daring dengan pemain lain."
         ]),
-        rating_id: 4, // 15+
+        rating_id: 3, // 13+
         cover_image: "http://localhost:5000/uploads/games/genshin-cover.png",
         gallery_images: JSON.stringify([
           "http://localhost:5000/uploads/games/genshin-gallery-1.png",

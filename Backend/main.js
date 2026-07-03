@@ -13,10 +13,12 @@ app.use('/uploads', express.static('uploads')); // Agar folder uploads bisa diak
 // Import Routes
 const gameRoutes = require('./routes/gameRoutes');
 const blogRoutes = require('./routes/blogRoutes');
+const metaRoutes = require('./routes/metaRoutes');
 
 // Daftarkan Routes
 app.use('/api/games', gameRoutes);
 app.use('/api/blogs', blogRoutes);
+app.use('/api/meta', metaRoutes);
 
 // Jalankan Server
 const PORT = process.env.PORT || 3000;

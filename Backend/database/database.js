@@ -65,6 +65,7 @@ connection.connect(async (err) => {
       `CREATE TABLE IF NOT EXISTS content_descriptors (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(100) NOT NULL,
+        description TEXT,
         icon_url VARCHAR(255)
       )`,
       `CREATE TABLE IF NOT EXISTS blogs (
