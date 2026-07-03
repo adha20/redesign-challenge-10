@@ -1,52 +1,85 @@
-# Backend Sistem Rating Gim (IGRS)
+# IGRS Backend Redesign (GDG 2026 Challenge)
 
-Selamat datang di repositori Backend untuk proyek desain ulang platform IGRS (Indonesia Game Rating System). Proyek ini dibangun secara khusus dengan mempertimbangkan 4 pilar utama kriteria penilaian *Back-End*: **Struktur Kode yang Bersih**, **Spesifikasi API yang Tepat**, **Arsitektur yang Modern (REST & MVC)**, dan **Dokumentasi yang Sangat Lengkap**.
+Repositori ini memuat *source code* lapisan peladen (*Backend*) untuk proyek **Indonesia Game Rating System (IGRS)**. *Backend* ini berfungsi sebagai sistem *Central Data Provider* (Penyedia Data Pusat) bagi aplikasi antarmuka (*Frontend*) menggunakan arsitektur *RESTful API*.
 
-## 🏆 Kepatuhan Terhadap Kriteria Penilaian Juri
-
-### 1. Struktur Kode (Kebersihan & Modularitas)
-Kode *backend* ini sangat mengutamakan *Clean Code* melalui prinsip *Separation of Concerns* (pemisahan tugas). File tidak ditumpuk menjadi satu, melainkan dipecah dengan sangat rapi:
-- `database/`: Mengurus koneksi SQL dan otomatisasi pembuatan tabel (Auto Migration).
-- `queries/`: Memisahkan instruksi kompleks SQL dari logika HTTP.
-- `controllers/`: Mengatur validasi permintaan (Request) dan format JSON (Response).
-- `routes/`: Hanya mendaftarkan titik akses URL tanpa mengotori file utama.
-- `main.js`: Menjadi gerbang utama (*Entry point*) yang sangat bersih dan mudah dibaca.
-
-### 2. Kesesuaian dengan Spesifikasi API (Fungsionalitas Penuh)
-API yang dibangun telah dioptimasi secara ekstrem untuk memenuhi *mockup* antarmuka UI.
-Misalnya, endpoint utama `GET /api/games` tidak hanya memanggil satu tabel, melainkan menggunakan perintah kompleks `JSON_ARRAYAGG` dan melakukan `JOIN` pada **6 tabel berbeda secara bersamaan**. Hasilnya, Frontend langsung menerima data JSON utuh yang kaya (termasuk *array* platform, ikon *rating*, dan jenis-jenis klasifikasi konten) sehingga sangat memudahkan *rendering* UI halaman Beranda dan Pencarian. Terdapat pula endpoint `POST /api/games/register` yang telah terintegrasi dengan Multer untuk menangani berkas *upload* (dokumen/gambar).
-
-### 3. Penggunaan Arsitektur (REST & MVC)
-Proyek ini mengadopsi pola **Headless REST API**. 
-- **REST:** Karena semua komunikasi dilakukan via JSON (bukan *render* HTML lama), *backend* dan *frontend* (React) terpisah sepenuhnya secara modern (*Decoupled*).
-- **MVC (Model-View-Controller):** Penataan direktori internal murni menggunakan standar MVC. Komponen `database` dan `queries` berperan murni sebagai **Model** untuk MySQL, sedangkan `gameController.js` berperan sebagai **Controller**. Tugas antarmuka visual (**View**) diserahkan 100% kepada proyek Frontend (React/Vite).
-
-### 4. Dokumentasi API & Kode
-Seluruh cara kerja arsitektur dan panduan titik akhir (Endpoint) telah dirangkum ke dalam satu dokumen terpisah yang sangat mendetail. 
-Silakan baca [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) untuk mendalami panduan kontrak API sistem ini.
+## Tech Stack
+- **Runtime Environment:** Node.js
+- **Framework:** Express.js
+- **Database:** MySQL (relational database)
+- **Modul Tambahan:** `cors`, `mysql2`
 
 ---
 
-## 🚀 Cara Menjalankan (Quick Start)
+## Struktur Arsitektur (MVC Pattern)
+Aplikasi ini diimplementasikan menggunakan pola arsitektur **Model-View-Controller (MVC)** yang dimodifikasi khusus untuk perancangan API (menggantikan *Model* dengan modul *Queries* abstrak):
 
-Karena proyek ini menggunakan fitur migrasi otomatis, Anda tidak perlu repot membuat tabel secara manual di MySQL. Cukup sediakan *database* kosong.
+```text
+Backend/
+├── controllers/       # Menangani logika permintaan HTTP (HTTP Request Logic)
+│   ├── blogController.js
+│   ├── gameController.js
+│   └── metaController.js
+├── database/          # Konfigurasi koneksi MySQL dan Seeding
+│   ├── database.js
+│   └── seed.js
+├── queries/           # Abstraksi perintah SQL murni (Data Access Layer)
+│   ├── blogQueries.js
+│   ├── gameQueries.js
+│   └── metaQueries.js
+├── routes/            # Pemetaan endpoint (URL) ke Controller yang tepat
+│   ├── blogRoutes.js
+│   ├── gameRoutes.js
+│   └── metaRoutes.js
+├── uploads/           # Direktori penyimpanan media (images) terpusat
+├── main.js            # Entry point peladen (konfigurasi Express)
+└── API_DOCUMENTATION.md # Referensi teknis struktur *Response* API
+```
 
-1. **Persiapan Database**
-   Buka alat seperti phpMyAdmin atau DBeaver, lalu buat satu database kosong baru:
-   ```sql
-   CREATE DATABASE redesign2_igrs;
+---
+
+## Implementasi Fitur
+
+### 1. Sistem *Database* Relasional Terpusat
+Menggunakan MySQL dengan implementasi relasi (*One-to-Many* dan *Many-to-Many*) untuk memetakan arsitektur data gim yang kompleks:
+- Relasi antara tabel `games` dengan `platforms` (Melalui `game_platforms`).
+- Relasi tabel `games` dengan `genres` dan tangkapan layar galeri.
+- Penggunaan skrip *Database Seeder* (`seed.js`) untuk inisialisasi awal skema tabel dan injeksi data awal tanpa intervensi manual.
+
+### 2. Layanan API Inti (*Core Endpoints*)
+Pengembangan modul *endpoints* untuk suplai data secara masif dan terstruktur:
+- **`GET /api/games`**: Mengembalikan daftar katalog gim beserta objek relasi detail (rating, publisher, platform).
+- **`GET /api/games/:id`**: Pengambilan informasi spesifik suatu entitas gim tunggal.
+- **`GET /api/blogs`**: Pengambilan daftar artikel terkait dari *database*.
+- **`GET /api/meta/classifications` & `/api/meta/ratings`**: Menyediakan data metadata operasional (seperti deskripsi kategori usia dan standar rating).
+
+### 3. Layanan Berkas Statis (*Static Asset Delivery*)
+Penyediaan direktori `/uploads/` yang diekspos menggunakan fungsi statis Express (`express.static`). Fitur ini menjadikan Backend sebagai satu-satunya *Source of Truth* bagi aset visual Frontend (foto profil, sampul gim, ikon klasifikasi), mengeliminasi duplikasi fail pada sisi antarmuka.
+
+---
+
+## Panduan Instalasi & Eksekusi
+
+1. **Konfigurasi Variabel Lingkungan**:
+   Buat file `.env` pada *root* direktori `Backend` dan sesuaikan kredensial MySQL lokal Anda:
+   ```env
+   DB_HOST=localhost
+   DB_USER=root
+   DB_PASSWORD=
+   DB_NAME=igrs_db
+   PORT=5000
    ```
-
-2. **Jalankan Backend (Auto Migration)**
-   Instal dependensi dan jalankan *server* (*server* akan mendeteksi *database* kosong, lalu otomatis membuat 9 struktur tabel).
+2. **Instalasi Modul**:
+   Buka terminal di direktori `Backend` lalu eksekusi:
    ```bash
    npm install
+   ```
+3. **Inisialisasi Database (Wajib)**:
+   Jalankan seeder untuk membuat tabel dan memasukkan data:
+   ```bash
+   node database/seed.js
+   ```
+4. **Menjalankan Peladen**:
+   ```bash
    npm run dev
    ```
-
-3. **Isi Data Dummy (Seeder)**
-   Jika *server* sudah menyala (Port 5000), buka terminal baru di dalam folder Backend, dan sebarkan *dummy data*:
-   ```bash
-   npm run seed
-   ```
-   *Script ini akan otomatis mengisi tabel dengan 10 daftar gim beserta puluhan relasi platform dan ratingnya secara utuh.*
+   *Server akan berjalan di `http://localhost:5000` dan siap melayani lalu lintas HTTP.*
