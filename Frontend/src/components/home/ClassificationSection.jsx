@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react';
-import Button from '../ui/Button';
 
 // Impor gambar klasifikasi yang baru diunduh
 import imgHorror from '../../assets/class-horror.png';
@@ -151,7 +150,7 @@ export default function ClassificationSection() {
       
       {/* Title & Subtitle */}
       <div className="flex flex-col gap-[8px] lg:gap-[10px] items-center text-center px-[16px] lg:px-4 max-w-[1015px] mx-auto w-full">
-        <h2 className="text-[32px] lg:text-[47px] font-bold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-b from-[#ce2323] to-[#681212] pb-[10px] -mb-[10px]">
+        <h2 className="text-[32px] lg:text-[47px] font-extrabold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-b from-[#ce2323] to-[#681212] pb-[10px] -mb-[10px]">
           Pahami Tanda Klasifikasi Konten
         </h2>
         <p className="text-[16px] lg:text-[21px] font-extralight text-light-black">

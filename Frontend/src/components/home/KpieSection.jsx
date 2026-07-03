@@ -7,7 +7,7 @@ export default function KpieSection() {
       
       {/* Title */}
       <div className="w-full max-w-[1080px] mb-[20px] lg:mb-[30px] flex justify-start px-[20px] lg:pl-[88px] lg:pr-0">
-        <h2 className="text-[32px] lg:text-[47px] font-bold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-b from-[#2367ce] to-[#123468] max-w-[716px] text-left pb-[10px] -mb-[10px]">
+        <h2 className="text-[32px] lg:text-[47px] font-extrabold leading-[1.2] bg-clip-text text-transparent bg-gradient-to-b from-[#2367ce] to-[#123468] max-w-[716px] text-left pb-[10px] -mb-[10px]">
           Klasifikasi Permainan Interaktif<br className="hidden lg:block" />Elektronik (KPIE)
         </h2>
       </div>
