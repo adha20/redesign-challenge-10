@@ -1,71 +1,67 @@
 /**
- * Kumpulan Fungsi Bantuan (Utility) untuk Format Response yang Konsisten
- * Tujuannya agar semua balasan API (sukses maupun gagal) punya struktur yang seragam.
- */
-
-/**
- * Mengirimkan response sukses (berhasil)
- * @param {Object} res - Objek response bawaan Express
- * @param {number} statusCode - Kode status HTTP (default: 200 OK)
- * @param {string} message - Pesan informasi (default: 'Success')
- * @param {*} data - Data (payload) yang ingin dikirimkan ke frontend (opsional)
+ * Send success response
+ * @param {Response} res
+ * @param {number} statusCode
+ * @param {string} message
+ * @param {*} data
  */
 const sendSuccess = (
   res,
   statusCode = 200,
   message = "Success",
-  data = null,
+  data = undefined,
 ) => {
-  res.status(statusCode).json({
-    success: true,
-    statusCode,
+  const response = {
     message,
-    // Jika ada data yang dioper, masukkan ke dalam objek response
-    ...(data && { data }),
-  });
+  };
+
+  if (data !== undefined) {
+    response.data = data;
+  }
+
+  return res.status(statusCode).json(response);
 };
 
 /**
- * Mengirimkan response error (gagal)
- * (Catatan: Biasanya ini dipakai jika tidak ingin melempar error ke Global Error Handler)
- * @param {Object} res - Objek response bawaan Express
- * @param {number} statusCode - Kode status HTTP (default: 500 Internal Server Error)
- * @param {string} message - Pesan error (default: 'Error')
- * @param {Object} details - Info detail tambahan terkait error tersebut (opsional)
+ * Send error response
+ * @param {Response} res
+ * @param {number} statusCode
+ * @param {string} message
+ * @param {Array|null} details
  */
 const sendError = (
   res,
   statusCode = 500,
-  message = "Error",
-  details = null,
+  message = "Internal Server Error",
+  details = undefined,
 ) => {
-  res.status(statusCode).json({
-    success: false,
-    statusCode,
+  const response = {
     message,
-    // Jika ada detail tambahan, masukkan ke dalam objek response
-    ...(details && { details }),
-  });
+  };
+
+  if (details !== undefined) {
+    response.details = details;
+  }
+
+  return res.status(statusCode).json(response);
 };
 
 /**
- * Fungsi bantuan (helper) untuk meracik custom error (error buatan sendiri)
- * Sangat cocok digabungkan dengan Global Error Handler dengan cara di-throw atau di-next()
- * @param {string} message - Pesan error yang ingin ditampilkan
- * @param {number} statusCode - Kode status HTTP (default: 500)
- * @param {Object} details - Info detail tambahan (opsional)
+ * Create custom error
+ * @param {string} message
+ * @param {number} statusCode
+ * @param {Array|null} details
  */
-const createError = (message, statusCode = 500, details = null) => {
-  // Buat instance error bawaan JavaScript
+const createError = (message, statusCode = 500, details = undefined) => {
   const error = new Error(message);
 
-  // Sisipkan status code ke dalam objek error
   error.statusCode = statusCode;
 
-  // Jika ada info detail tambahan, sisipkan juga
-  if (details) error.details = details;
+  if (details !== undefined) {
+    error.details = details;
+  }
 
-  return error; // Kembalikan objek error yang sudah diracik
+  return error;
 };
 
 module.exports = {
