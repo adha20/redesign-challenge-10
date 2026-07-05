@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../ui/Button';
 
 export default function BlogSection() {
-  const [blogs, setBlogs] = React.useState([]);
+  const [blogs, setBlogs] = useState([]);
 
-  React.useEffect(() => {
-    fetch('http://localhost:5000/api/blogs')
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/blogs`)
       .then(res => res.json())
       .then(data => {
         if (data.data && data.data.length > 0) {

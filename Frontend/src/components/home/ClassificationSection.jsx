@@ -8,7 +8,7 @@ export default function ClassificationSection() {
   const [classifications, setClassifications] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/meta/classifications')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/meta/classifications`)
       .then(res => res.json())
       .then(data => {
         if (data.data && data.data.length > 0) {

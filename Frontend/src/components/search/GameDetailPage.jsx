@@ -7,7 +7,7 @@ export default function GameDetailPage() {
   const [game, setGame] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/games')
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/games`)
       .then(res => res.json())
       .then(data => {
         if (data.data && data.data.length > 0) {

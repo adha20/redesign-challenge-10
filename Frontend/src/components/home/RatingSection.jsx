@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function RatingSection() {
-  const [ratings, setRatings] = React.useState([]);
+  const [ratings, setRatings] = useState([]);
 
-  React.useEffect(() => {
-    fetch('http://localhost:5000/api/meta/ratings')
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/meta/ratings`)
       .then(res => res.json())
       .then(data => {
         if (data.data && data.data.length > 0) {
