@@ -1,5 +1,4 @@
 // Dummy Data untuk Simulasi Login Pengguna
-import image17 from '../assets/image17.png';
 
 export const dummyUsers = [
   {
@@ -10,6 +9,6 @@ export const dummyUsers = [
     country: "indonesia",
     password: "12345678",
     role: "user",
-    avatar: image17
+    avatar: "https://ui-avatars.com/api/?name=adha&background=random"
   }
 ];

@@ -6,15 +6,71 @@ export default function RegisterAccountPage() {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
 
+  // Form states
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    country: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const handleNext = (e) => {
-    e.preventDefault(); // To prevent form submission if wrapped in a form, but here we just manually advance
+    e.preventDefault();
     setStep(2);
   };
   
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    // Simulate successful registration
-    navigate('/masuk');
+    
+    if (formData.password !== formData.confirmPassword) {
+      setError('Kata sandi dan Konfirmasi kata sandi tidak cocok.');
+      return;
+    }
+
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          country: formData.country,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (data.details && data.details.length > 0) {
+          throw new Error(data.details[0].message);
+        }
+        throw new Error(data.message || 'Registrasi gagal.');
+      }
+
+      // Berhasil
+      alert('Registrasi berhasil! Silakan masuk dengan akun Anda.');
+      navigate('/masuk');
+
+    } catch (err) {
+      setError(err.message || 'Terjadi kesalahan. Silakan coba lagi.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -30,6 +86,12 @@ export default function RegisterAccountPage() {
         </div>
 
         <div className="mt-[40px] lg:mt-[60px] w-full max-w-[984px]">
+          {error && (
+            <div className="w-full bg-[#fde8e8] text-[#9b1c1c] border border-[#fbd5d5] px-4 py-3 rounded-md text-[16px] lg:text-[18px] mb-[20px]">
+              {error}
+            </div>
+          )}
+          
           {step === 1 ? (
             <form onSubmit={handleNext} className="flex flex-col gap-[16px] lg:gap-[24px] w-full">
               <div className="flex flex-col lg:flex-row gap-[16px] lg:gap-[36px] w-full">
@@ -39,6 +101,9 @@ export default function RegisterAccountPage() {
                   </label>
                   <input 
                     type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     required
                     placeholder="Masukkan Nama Lengkap"
                     className="bg-white border border-[#f0f0f0] rounded-[222px] px-[24px] lg:px-[50px] py-[10px] w-full outline-none text-[16px] lg:text-[21px] text-[#1a1a1a] placeholder:text-[#1a1a1a] placeholder:opacity-50 shadow-[0_6px_8px_-2px_rgba(0,0,0,0.15)] focus:border-[#2367ce]"
@@ -50,6 +115,9 @@ export default function RegisterAccountPage() {
                   </label>
                   <input 
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     required
                     placeholder="contoh@gmail.com"
                     className="bg-white border border-[#f0f0f0] rounded-[222px] px-[24px] lg:px-[50px] py-[10px] w-full outline-none text-[16px] lg:text-[21px] text-[#1a1a1a] placeholder:text-[#1a1a1a] placeholder:opacity-50 shadow-[0_6px_8px_-2px_rgba(0,0,0,0.15)] focus:border-[#2367ce]"
@@ -63,6 +131,9 @@ export default function RegisterAccountPage() {
                 </label>
                 <input 
                   type="text"
+                  name="company"
+                  value={formData.company}
+                  onChange={handleChange}
                   placeholder="Masukkan Nama Perusahaan/Studio"
                   className="bg-white border border-[#f0f0f0] rounded-[222px] px-[24px] lg:px-[50px] py-[10px] w-full outline-none text-[16px] lg:text-[21px] text-[#1a1a1a] placeholder:text-[#1a1a1a] placeholder:opacity-50 shadow-[0_6px_8px_-2px_rgba(0,0,0,0.15)] focus:border-[#2367ce]"
                 />
@@ -74,6 +145,9 @@ export default function RegisterAccountPage() {
                 </label>
                 <input 
                   type="text"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
                   placeholder="Masukkan Negara/Asal Pengembang"
                   className="bg-white border border-[#f0f0f0] rounded-[222px] px-[24px] lg:px-[50px] py-[10px] w-full outline-none text-[16px] lg:text-[21px] text-[#1a1a1a] placeholder:text-[#1a1a1a] placeholder:opacity-50 shadow-[0_6px_8px_-2px_rgba(0,0,0,0.15)] focus:border-[#2367ce]"
                 />
@@ -103,6 +177,9 @@ export default function RegisterAccountPage() {
                 </label>
                 <input 
                   type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   required
                   placeholder="********"
                   className="bg-white border border-[#f0f0f0] rounded-[222px] px-[24px] lg:px-[50px] py-[10px] w-full outline-none text-[16px] lg:text-[21px] text-[#1a1a1a] placeholder:text-[#1a1a1a] placeholder:opacity-50 shadow-[0_6px_8px_-2px_rgba(0,0,0,0.15)] focus:border-[#2367ce]"
@@ -115,6 +192,9 @@ export default function RegisterAccountPage() {
                 </label>
                 <input 
                   type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
                   required
                   placeholder="********"
                   className="bg-white border border-[#f0f0f0] rounded-[222px] px-[24px] lg:px-[50px] py-[10px] w-full outline-none text-[16px] lg:text-[21px] text-[#1a1a1a] placeholder:text-[#1a1a1a] placeholder:opacity-50 shadow-[0_6px_8px_-2px_rgba(0,0,0,0.15)] focus:border-[#2367ce]"
@@ -168,9 +248,10 @@ export default function RegisterAccountPage() {
                   </button>
                   <Button 
                     type="submit"
-                    className="flex-1 !justify-center !h-[48px] lg:!h-[58px] !rounded-[222px] !text-[16px] lg:!text-[21px] !font-bold shadow-md"
+                    disabled={isLoading}
+                    className="flex-1 !justify-center !h-[48px] lg:!h-[58px] !rounded-[222px] !text-[16px] lg:!text-[21px] !font-bold shadow-md disabled:opacity-50"
                   >
-                    Daftar
+                    {isLoading ? 'Memproses...' : 'Daftar'}
                   </Button>
                 </div>
                 

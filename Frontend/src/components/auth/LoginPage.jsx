@@ -9,20 +9,41 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = (e) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError('');
     
-    // Cek kecocokan data dengan dummyUsers
-    const user = dummyUsers.find(u => u.email === email && u.password === password);
-    
-    if (user) {
-      setError('');
-      // Menyimpan info login di localStorage sebagai simulasi sesi
-      localStorage.setItem('igrs_user', JSON.stringify(user));
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Jika status error (4xx/5xx)
+        if (data.details && data.details.length > 0) {
+          throw new Error(data.details[0].message);
+        }
+        throw new Error(data.message || 'Email atau kata sandi yang Anda masukkan salah.');
+      }
+
+      // Jika berhasil
+      localStorage.setItem('igrs_user', JSON.stringify(data.data.user));
+      localStorage.setItem('igrs_token', data.data.token);
       window.location.href = '/';
-    } else {
-      // Jika gagal
-      setError('Email atau kata sandi yang Anda masukkan salah.');
+      
+    } catch (err) {
+      setError(err.message || 'Terjadi kesalahan saat masuk. Silakan coba lagi.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -76,9 +97,10 @@ export default function LoginPage() {
           <div className="mt-[16px] w-full flex flex-col items-center gap-[16px]">
             <Button 
               type="submit"
-              className="!w-full !justify-center !py-[12px] lg:!py-[16px] !rounded-[222px] !text-[16px] lg:!text-[21px] !font-bold shadow-md"
+              disabled={isLoading}
+              className="!w-full !justify-center !py-[12px] lg:!py-[16px] !rounded-[222px] !text-[16px] lg:!text-[21px] !font-bold shadow-md disabled:opacity-50"
             >
-              Masuk
+              {isLoading ? 'Memproses...' : 'Masuk'}
             </Button>
             
             <p className="text-[16px] lg:text-[21px] text-[#1a1a1a]">
