@@ -7,8 +7,10 @@ export default function SearchPage() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
   const [games, setGames] = useState([]); // Inisialisasi kosong
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${import.meta.env.VITE_BACKEND_URL}/api/games`)
       .then(res => res.json())
       .then(data => {
@@ -28,8 +30,12 @@ export default function SearchPage() {
           }));
           setGames(mappedGames);
         }
+        setIsLoading(false);
       })
-      .catch(err => console.error("Error fetching games:", err));
+      .catch(err => {
+        console.error("Error fetching games:", err);
+        setIsLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -138,8 +144,22 @@ export default function SearchPage() {
           {/* Left Side: Search Results */}
           <div className="w-full lg:w-[767px] flex flex-col gap-[16px] shrink-0">
             
-            {/* Dynamic Result Cards */}
-            {filteredGames.length > 0 ? (
+            {/* Dynamic Result Cards or Skeleton */}
+            {isLoading ? (
+              // Skeleton Loading Animation
+              Array.from({ length: 3 }).map((_, idx) => (
+                <div key={idx} className="w-full bg-white rounded-[24px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.15)] flex flex-col md:flex-row items-center justify-between px-[20px] lg:px-[36px] py-[20px] animate-pulse gap-[16px] md:gap-0">
+                  <div className="flex flex-col md:flex-row items-center gap-[16px] lg:gap-[36px] w-full">
+                    <div className="w-[100px] h-[100px] lg:w-[120px] lg:h-[120px] rounded-[24px] bg-gray-200 shrink-0"></div>
+                    <div className="flex flex-col gap-[12px] flex-1 w-full items-center md:items-start py-[10px]">
+                      <div className="h-[24px] lg:h-[32px] bg-gray-200 rounded-[8px] w-[80%] md:w-3/4"></div>
+                      <div className="h-[20px] lg:h-[24px] bg-gray-200 rounded-[8px] w-[50%] md:w-1/2"></div>
+                    </div>
+                  </div>
+                  <div className="w-[60px] h-[60px] lg:w-[80px] lg:h-[80px] shrink-0 bg-gray-200 rounded-full"></div>
+                </div>
+              ))
+            ) : filteredGames.length > 0 ? (
               filteredGames.map(game => (
                 <div key={game.id} onClick={() => navigate(`/game/${game.id}`)} className="w-full bg-white rounded-[24px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.15)] flex flex-col md:flex-row items-center justify-between px-[20px] lg:px-[36px] py-[20px] hover:-translate-y-1 transition-transform cursor-pointer gap-[16px] md:gap-0">
                   <div className="flex flex-col md:flex-row items-center gap-[16px] lg:gap-[36px]">
