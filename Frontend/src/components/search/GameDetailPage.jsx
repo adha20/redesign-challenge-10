@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 export default function GameDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   
   const [game, setGame] = useState(null);
 
@@ -46,6 +47,15 @@ export default function GameDetailPage() {
     setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   };
 
+  const handleSearch = () => {
+    const val = document.getElementById('detailSearch').value;
+    if (val.trim()) {
+      navigate(`/search?q=${encodeURIComponent(val.trim())}`);
+    } else {
+      navigate('/search');
+    }
+  };
+
   // Efek geser otomatis setiap 3 detik
   useEffect(() => {
     if (!game) return;
@@ -79,11 +89,13 @@ export default function GameDetailPage() {
       {/* Search Input Bar */}
       <div className="w-[90%] lg:w-full max-w-[709px] mx-auto h-[50px] lg:h-[67px] bg-white border border-[#f0f0f0] rounded-[222px] drop-shadow-[0px_4px_2px_rgba(0,0,0,0.15)] flex items-center justify-between px-[20px] lg:px-[50px] py-[10px] z-20">
         <input 
+          id="detailSearch"
           type="text" 
           defaultValue={game.title}
+          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           className="flex-1 bg-transparent border-none outline-none text-[16px] lg:text-[21px] text-[#1a1a1a] font-normal w-full"
         />
-        <div className="w-[35px] h-[35px] lg:w-[45px] lg:h-[45px] rounded-full flex items-center justify-center shrink-0 hover:bg-gray-100 cursor-pointer transition-colors ml-2">
+        <div onClick={handleSearch} className="w-[35px] h-[35px] lg:w-[45px] lg:h-[45px] rounded-full flex items-center justify-center shrink-0 hover:bg-gray-100 cursor-pointer transition-colors ml-2">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-light-black opacity-50 w-[20px] h-[20px] lg:w-[24px] lg:h-[24px]">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
