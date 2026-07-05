@@ -27,12 +27,16 @@ const seedDatabase = async () => {
     await connection.query('TRUNCATE TABLE users');
     await connection.query('SET FOREIGN_KEY_CHECKS = 1');
 
-    // 2. Insert Users
-    // Dummy User (Adha) - ID 1
-    await connection.query(`INSERT INTO users (id, name, email, company, country, password, role, avatar) VALUES (1, 'adha', 'adha20@gmail.com', 'adha', 'indonesia', '12345678', 'user', 'http://localhost:5000/uploads/assets/image17.png')`);
+    // 2. Insert Users (Hanya Admin)
+    const bcrypt = require('bcrypt');
+    const salt = await bcrypt.genSalt(10);
+    const hashedAdminPassword = await bcrypt.hash('admin123', salt);
 
-    // Admin User - ID 2
-    const [userResult] = await connection.query(`INSERT INTO users (name, email, password, role) VALUES ('Admin IGRS', 'admin@igrs.id', 'hashedpassword123', 'admin')`);
+    // Admin User - ID 1
+    const [userResult] = await connection.query(
+      `INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)`, 
+      ['Admin IGRS', 'admin@igrs.id', hashedAdminPassword, 'admin']
+    );
     const devId = userResult.insertId;
 
     // 3. Insert Ratings

@@ -7,6 +7,34 @@ const Joi = require("joi");
 
 // Daftar skema validasi untuk berbagai keperluan
 const schemas = {
+  // Skema untuk registrasi user
+  registerUser: Joi.object({
+    name: Joi.string().trim().required().max(255).messages({
+      "string.required": "Nama lengkap wajib diisi",
+    }),
+    email: Joi.string().trim().email().required().max(255).messages({
+      "string.required": "Email wajib diisi",
+      "string.email": "Format email tidak valid",
+    }),
+    company: Joi.string().trim().allow("").max(255),
+    country: Joi.string().trim().allow("").max(255),
+    password: Joi.string().required().min(6).messages({
+      "string.required": "Kata sandi wajib diisi",
+      "string.min": "Kata sandi minimal 6 karakter",
+    })
+  }),
+
+  // Skema untuk login user
+  loginUser: Joi.object({
+    email: Joi.string().trim().email().required().messages({
+      "string.required": "Email wajib diisi",
+      "string.email": "Format email tidak valid",
+    }),
+    password: Joi.string().required().messages({
+      "string.required": "Kata sandi wajib diisi",
+    })
+  }),
+
   // Skema untuk mendaftarkan game baru
   registerGame: Joi.object({
     title: Joi.string().trim().required().max(255).messages({

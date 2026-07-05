@@ -9,6 +9,7 @@ const errorHandler = require("./middlewares/errorHandler");
 const gameRoutes = require("./routes/gameRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const metaRoutes = require("./routes/metaRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true })); // Agar bisa membaca form-data
 app.use("/uploads", express.static("uploads")); // Agar folder uploads bisa diakses publik (download file zip/gambar)
 
 // Daftarkan Routes
+app.use("/api/auth", authRoutes);
 app.use("/api/games", gameRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/meta", metaRoutes);
