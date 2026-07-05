@@ -2,9 +2,6 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
-// Import Middlewares
-const errorHandler = require("./middlewares/errorHandler");
-
 // Import Routes
 const gameRoutes = require("./routes/gameRoutes");
 const blogRoutes = require("./routes/blogRoutes");
@@ -24,6 +21,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/games", gameRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/meta", metaRoutes);
+
+// Import Middlewares
+const errorHandler = require("./middlewares/errorHandler");
 
 // Global Error Handler Middleware (harus di akhir semua routes)
 app.use(errorHandler);
