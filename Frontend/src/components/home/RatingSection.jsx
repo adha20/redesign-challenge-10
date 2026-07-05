@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 export default function RatingSection() {
   const [ratings, setRatings] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${import.meta.env.VITE_BACKEND_URL}/api/meta/ratings`)
       .then(res => res.json())
       .then(data => {
@@ -15,8 +17,12 @@ export default function RatingSection() {
           }));
           setRatings(mappedRatings);
         }
+        setIsLoading(false);
       })
-      .catch(err => console.error("Error fetching ratings:", err));
+      .catch(err => {
+        console.error("Error fetching ratings:", err);
+        setIsLoading(false);
+      });
   }, []);
 
   return (
@@ -35,24 +41,36 @@ export default function RatingSection() {
       {/* Blue Gradient Box for Rating Cards */}
       <div className="mt-[30px] lg:mt-[50px] w-[90%] lg:w-[1080px] h-auto lg:h-[323px] py-[40px] lg:py-0 bg-gradient-to-b from-dblue-start to-dblue-end rounded-[24px] flex items-center justify-center px-[20px] lg:px-[40px] shadow-lg">
         <div className="flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-end w-full gap-[30px] lg:gap-[20px]">
-          {ratings.map((rating) => (
-            <div 
-              key={rating.id} 
-              className="flex flex-col items-center gap-[12px] lg:gap-[16px] w-[140px] lg:w-[193px] hover:-translate-y-2 lg:hover:-translate-y-3 transition-transform duration-300 cursor-pointer"
-            >
-              <div className="w-full aspect-square">
-                <img 
-                  src={`${import.meta.env.VITE_BACKEND_URL}${rating.src}`} 
-                  alt={rating.title} 
-                  loading="lazy"
-                  className="w-full h-full object-cover" 
-                />
+          {isLoading ? (
+            Array.from({ length: 5 }).map((_, idx) => (
+              <div 
+                key={idx} 
+                className="flex flex-col items-center gap-[12px] lg:gap-[16px] w-[140px] lg:w-[193px] animate-pulse"
+              >
+                <div className="w-full aspect-square bg-white/20 rounded-[16px]"></div>
+                <div className="h-[24px] lg:h-[32px] w-[80%] bg-white/20 rounded-[8px]"></div>
               </div>
-              <p className="text-[20px] lg:text-[27px] font-bold text-white leading-[1.2] text-center">
-                {rating.title}
-              </p>
-            </div>
-          ))}
+            ))
+          ) : (
+            ratings.map((rating) => (
+              <div 
+                key={rating.id} 
+                className="flex flex-col items-center gap-[12px] lg:gap-[16px] w-[140px] lg:w-[193px] hover:-translate-y-2 lg:hover:-translate-y-3 transition-transform duration-300 cursor-pointer"
+              >
+                <div className="w-full aspect-square">
+                  <img 
+                    src={`${import.meta.env.VITE_BACKEND_URL}${rating.src}`} 
+                    alt={rating.title} 
+                    loading="lazy"
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+                <p className="text-[20px] lg:text-[27px] font-bold text-white leading-[1.2] text-center">
+                  {rating.title}
+                </p>
+              </div>
+            ))
+          )}
         </div>
       </div>
 

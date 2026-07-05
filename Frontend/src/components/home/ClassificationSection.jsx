@@ -6,8 +6,10 @@ import { useInfiniteSlider } from '../../hooks/useInfiniteSlider';
 
 export default function ClassificationSection() {
   const [classifications, setClassifications] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${import.meta.env.VITE_BACKEND_URL}/api/meta/classifications`)
       .then(res => res.json())
       .then(data => {
@@ -20,8 +22,12 @@ export default function ClassificationSection() {
           }));
           setClassifications(mappedClassifications);
         }
+        setIsLoading(false);
       })
-      .catch(err => console.error("Error fetching classifications:", err));
+      .catch(err => {
+        console.error("Error fetching classifications:", err);
+        setIsLoading(false);
+      });
   }, []);
 
   const {
@@ -54,14 +60,30 @@ export default function ClassificationSection() {
           onScroll={handleScrollEvent}
           className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-[16px] lg:gap-[78px] px-[20px] lg:px-[calc(50%-495.5px)] pt-[4px] pb-[10px]"
         >
-          {extendedItems.map((item) => (
-            <ClassificationCard 
-              key={item.uniqueId} 
-              title={item.title} 
-              desc={item.desc} 
-              img={item.img} 
-            />
-          ))}
+          {isLoading ? (
+            Array.from({ length: 3 }).map((_, idx) => (
+              <div key={idx} className="flex-none snap-center w-[85vw] lg:w-[991px] h-auto lg:h-[238px] rounded-[16px] bg-white border border-gray-100 shadow-[inset_0px_4px_6px_rgba(0,0,0,0.15),0px_4px_4px_rgba(0,0,0,0.05)] flex flex-col lg:flex-row gap-[16px] lg:gap-[14px] items-center lg:items-start px-[20px] lg:px-[36px] py-[24px] lg:py-[36px] animate-pulse">
+                <div className="relative shrink-0 w-[100px] h-[100px] lg:w-[166px] lg:h-[166px] bg-gray-200 rounded-[20px]"></div>
+                <div className="flex flex-col gap-[16px] flex-1 w-full lg:pl-[20px]">
+                  <div className="h-[28px] lg:h-[40px] bg-gray-200 rounded-[8px] w-full max-w-[300px] mx-auto"></div>
+                  <div className="flex flex-col gap-[8px] w-full">
+                    <div className="h-[16px] lg:h-[20px] bg-gray-200 rounded-[8px] w-full max-w-[779px] mx-auto"></div>
+                    <div className="h-[16px] lg:h-[20px] bg-gray-200 rounded-[8px] w-[90%] max-w-[779px] mx-auto"></div>
+                    <div className="h-[16px] lg:h-[20px] bg-gray-200 rounded-[8px] w-[70%] max-w-[779px] mx-auto"></div>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            extendedItems.map((item) => (
+              <ClassificationCard 
+                key={item.uniqueId} 
+                title={item.title} 
+                desc={item.desc} 
+                img={item.img} 
+              />
+            ))
+          )}
         </div>
 
         {/* Pagination Dots */}
