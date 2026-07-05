@@ -72,7 +72,7 @@ export default function Navbar({ className = '' }) {
                 </span>
                 <div className="w-[36px] h-[36px] lg:w-[45px] lg:h-[45px] rounded-full overflow-hidden border-[2px] lg:border-[2.5px] border-[#2367ce] bg-[#f0f0f0] flex items-center justify-center shrink-0">
                   {user.avatar ? (
-                    <img src={user.avatar} alt="Profile" className="w-full h-full object-cover" />
+                    <img src={user.avatar.startsWith('http') ? user.avatar : `${import.meta.env.VITE_BACKEND_URL}${user.avatar}`} alt="Profile" className="w-full h-full object-cover" />
                   ) : (
                     <img src={`https://ui-avatars.com/api/?name=${user.company || user.name}&background=random&color=fff&size=100`} alt="Profile" className="w-full h-full object-cover" />
                   )}
