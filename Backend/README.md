@@ -6,7 +6,8 @@ Repositori ini memuat *source code* lapisan peladen (*Backend*) untuk proyek **I
 - **Runtime Environment:** Node.js
 - **Framework:** Express.js
 - **Database:** MySQL (relational database)
-- **Modul Tambahan:** `cors`, `mysql2`
+- **Otentikasi:** JWT (JSON Web Token) & bcrypt
+- **Modul Tambahan:** `cors`, `mysql2`, `joi`
 
 ---
 
@@ -16,6 +17,7 @@ Aplikasi ini diimplementasikan menggunakan pola arsitektur **Model-View-Controll
 ```text
 Backend/
 ├── controllers/       # Menangani logika permintaan HTTP (HTTP Request Logic)
+│   ├── authController.js
 │   ├── blogController.js
 │   ├── gameController.js
 │   └── metaController.js
@@ -25,8 +27,10 @@ Backend/
 ├── queries/           # Abstraksi perintah SQL murni (Data Access Layer)
 │   ├── blogQueries.js
 │   ├── gameQueries.js
-│   └── metaQueries.js
+│   ├── metaQueries.js
+│   └── userQueries.js
 ├── routes/            # Pemetaan endpoint (URL) ke Controller yang tepat
+│   ├── authRoutes.js
 │   ├── blogRoutes.js
 │   ├── gameRoutes.js
 │   └── metaRoutes.js
@@ -47,6 +51,7 @@ Menggunakan MySQL dengan implementasi relasi (*One-to-Many* dan *Many-to-Many*) 
 
 ### 2. Layanan API Inti (*Core Endpoints*)
 Pengembangan modul *endpoints* untuk suplai data secara masif dan terstruktur:
+- **`POST /api/auth/register` & `/api/auth/login`**: Otentikasi pengguna menggunakan enkripsi kata sandi (*bcrypt*) dan token JWT.
 - **`GET /api/games`**: Mengembalikan daftar katalog gim beserta objek relasi detail (rating, publisher, platform).
 - **`GET /api/games/:id`**: Pengambilan informasi spesifik suatu entitas gim tunggal.
 - **`GET /api/blogs`**: Pengambilan daftar artikel terkait dari *database*.
@@ -65,8 +70,9 @@ Penyediaan direktori `/uploads/` yang diekspos menggunakan fungsi statis Express
    DB_HOST=localhost
    DB_USER=root
    DB_PASSWORD=
-   DB_NAME=igrs_db
+   DB_NAME=redesign2_igrs
    PORT=5000
+   JWT_SECRET=rahasia_super_aman_123
    ```
 2. **Instalasi Modul**:
    Buka terminal di direktori `Backend` lalu eksekusi:

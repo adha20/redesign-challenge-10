@@ -25,7 +25,8 @@ Proyek ini dipecah menjadi dua direktori utama yang beroperasi secara independen
 ## ✨ Sorotan Pencapaian Teknis (Key Highlights)
 
 - **Akurasi UI/UX Tinggi:** Mengimplementasikan desain secara presisi, mencakup efek gradien, tata letak responsif, *custom shadow*, hingga proporsi ukuran visual (*Pixel Perfect*).
-- **Integrasi Full-Stack (Tanpa Data Dummy):** Seluruh informasi (daftar gim, penerbit, metadata klasifikasi, kategori umur, galeri foto) ditarik secara dinamis dari *database* MySQL melalui *endpoints* API asinkron.
+- **Integrasi Full-Stack (Tanpa Data Dummy):** Seluruh informasi (daftar gim, penerbit, metadata) ditarik dinamis dari MySQL.
+- **Sistem Keamanan:** Terintegrasi dengan sistem otentikasi menggunakan JSON Web Token (JWT) dan enkripsi sandi (*bcrypt*).
 - **Arsitektur Modular:** 
   - *Frontend* menerapkan *Atomic Design* dengan memisahkan komponen *reusable* (`UI Components`) dan mendelegasikan fungsionalitas kompleks ke *Custom Hooks*.
   - *Backend* menerapkan pola *MVC (Model-View-Controller)* dengan lapisan akses data terabstraksi (`Queries`).

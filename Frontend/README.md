@@ -22,7 +22,7 @@ Proyek ini terintegrasi penuh dengan REST API *Backend* (Node.js/Express + MySQL
 - **Beranda (Home):** Implementasi UI interaktif untuk section Hero, KPI, Daftar Rating, Slider Klasifikasi Konten, dan Artikel Blog.
 - **Pencarian (Search):** Sistem filter multi-kriteria (Teks, Rating, Genre, Platform) secara asinkron dengan sinkronisasi parameter URL (`useSearchParams`).
 - **Detail Gim:** Pembuatan *Image Gallery Slider* dinamis berdasarkan data spesifik gim yang dipilih.
-- **Lainnya:** Template dasar untuk halaman Registrasi Gim dan Login (mockup).
+- **Lainnya:** Implementasi fitur Otentikasi (*Login* & *Register*) yang terhubung langsung ke API Backend.
 
 ### 3. Struktur Kode & Modularitas
 Implementasi didasarkan pada pendekatan *Atomic Design* untuk menghindari pengulangan (DRY) dan meningkatkan skalabilitas kode:
@@ -64,8 +64,12 @@ Frontend/
    ```bash
    npm install
    ```
-3. *Pastikan server Backend IGRS sudah berjalan (default port 5000) agar fitur fetch data API dan load gambar dapat berfungsi normal.*
-4. Mulai server pengembangan (*development server*):
+3. Buat file `.env` di dalam folder Frontend dan isi dengan URL API backend:
+   ```env
+   VITE_BACKEND_URL=http://localhost:5000
+   ```
+4. *Pastikan server Backend IGRS sudah berjalan di port yang sesuai agar fitur fetch data API dan load gambar dapat berfungsi normal.*
+5. Mulai server pengembangan (*development server*):
    ```bash
    npm run dev
    ```
