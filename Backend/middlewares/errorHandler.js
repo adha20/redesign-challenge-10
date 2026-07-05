@@ -6,7 +6,7 @@ const { sendError } = require("../utils/responses");
  * Menangani seluruh error yang dilempar dari controller,
  * middleware, maupun validation agar response API selalu konsisten.
  */
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res, _next) => {
   // Tampilkan error di console untuk proses debugging
   console.error(err);
 

@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { sendSuccess, sendError, createError } = require('../utils/responses');
+const { sendSuccess, createError } = require('../utils/responses');
 const userQueries = require('../queries/userQueries');
 
 // Kunci rahasia JWT (biasanya disimpan di .env, kita beri default jika belum ada)
