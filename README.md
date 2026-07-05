@@ -47,7 +47,7 @@ npm install
 # ⚠️ PENTING: Pastikan layanan database MySQL Anda sudah menyala! 
 # (Silakan hidupkan modul MySQL melalui XAMPP, Laragon, atau Docker terlebih dahulu).
 
-# Konfigurasi file .env Anda (Lihat Panduan di Backend/README.md)
+# Konfigurasi file .env (Salin dari file .env.example)
 # Jalankan Seeder untuk membuat tabel dan data awal
 node database/seed.js
 

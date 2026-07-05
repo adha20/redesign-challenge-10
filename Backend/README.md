@@ -65,15 +65,11 @@ Penyediaan direktori `/uploads/` yang diekspos menggunakan fungsi statis Express
 ## Panduan Instalasi & Eksekusi
 
 1. **Konfigurasi Variabel Lingkungan**:
-   Buat file `.env` pada *root* direktori `Backend` dan sesuaikan kredensial MySQL lokal Anda:
-   ```env
-   DB_HOST=localhost
-   DB_USER=root
-   DB_PASSWORD=
-   DB_NAME=redesign2_igrs
-   PORT=5000
-   JWT_SECRET=rahasia_super_aman_123
+   Salin *file* `.env.example` yang ada pada direktori `Backend` dan ubah namanya menjadi `.env`.
+   ```bash
+   cp .env.example .env
    ```
+   *(Secara bawaan, nilai di dalamnya sudah disesuaikan untuk database `redesign2_igrs` dengan port `5000`)*
 2. **Instalasi Modul**:
    Buka terminal di direktori `Backend` lalu eksekusi:
    ```bash

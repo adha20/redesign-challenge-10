@@ -64,9 +64,9 @@ Frontend/
    ```bash
    npm install
    ```
-3. Buat file `.env` di dalam folder Frontend dan isi dengan URL API backend:
-   ```env
-   VITE_BACKEND_URL=http://localhost:5000
+3. **Konfigurasi Lingkungan:** Salin *file* `.env.example` menjadi `.env`:
+   ```bash
+   cp .env.example .env
    ```
 4. *Pastikan server Backend IGRS sudah berjalan di port yang sesuai agar fitur fetch data API dan load gambar dapat berfungsi normal.*
 5. Mulai server pengembangan (*development server*):
