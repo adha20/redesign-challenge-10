@@ -101,7 +101,7 @@ export default function GameDetailPage() {
           {/* Header */}
           <div className="flex flex-col md:flex-row gap-[24px] lg:gap-[36px] items-center md:items-start text-center md:text-left">
             <div className="w-[100px] h-[100px] lg:w-[120px] lg:h-[120px] rounded-[24px] border-[6px] lg:border-[8px] border-[#2367ce] overflow-hidden shrink-0 shadow-sm">
-              <img src={game.coverImage} alt={`${game.title} Cover`} className="w-full h-full object-cover" />
+              <img src={`${import.meta.env.VITE_BACKEND_URL}${game.coverImage}`} alt={`${game.title} Cover`} className="w-full h-full object-cover" />
             </div>
             {/* Padding top 32px agar teks Genshin Impact sejajar horizontal dengan teks Rating di kartu sebelah kanan */}
             <div className="flex flex-col gap-[4px] text-[#1a1a1a] pt-0 md:pt-[16px] lg:pt-[32px]">
@@ -126,7 +126,7 @@ export default function GameDetailPage() {
           {/* Rating */}
           <div className="w-full flex flex-col items-center lg:items-start gap-[8px] lg:gap-[12px]">
             <p className="font-normal text-[18px] lg:text-[21px] text-[#1a1a1a] leading-[1.2]">Rating</p>
-            <img src={game.rating.icon} alt={game.rating.age} className="h-[50px] lg:h-[70px] w-auto object-contain" />
+            <img src={`${import.meta.env.VITE_BACKEND_URL}${game.rating.icon}`} alt={game.rating.age} className="h-[50px] lg:h-[70px] w-auto object-contain" />
           </div>
 
           {/* Klasifikasi */}
@@ -135,7 +135,7 @@ export default function GameDetailPage() {
             <div className="flex items-center justify-center lg:justify-start gap-[8px] lg:gap-[12px] w-full flex-wrap">
                {game.klasifikasi.map((item, idx) => (
                  <div key={idx} className="relative group flex items-center justify-center cursor-pointer">
-                   <img src={item.icon} alt={`Klasifikasi ${item.name}`} className="w-[60px] h-[60px] lg:w-[84px] lg:h-[84px] object-contain transition-transform group-hover:scale-105" />
+                   <img src={`${import.meta.env.VITE_BACKEND_URL}${item.icon}`} alt={`Klasifikasi ${item.name}`} className="w-[60px] h-[60px] lg:w-[84px] lg:h-[84px] object-contain transition-transform group-hover:scale-105" />
                    
                    {/* Custom Tooltip (Speech Bubble) */}
                    <div className="absolute bottom-full mb-[8px] lg:mb-[10px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center bg-[#f2f2f2] rounded-[24px] px-[12px] lg:px-[16px] py-[6px] lg:py-[8px] shadow-[0px_2px_4px_rgba(0,0,0,0.1)] pointer-events-none whitespace-nowrap z-30">
@@ -167,7 +167,7 @@ export default function GameDetailPage() {
             <p className="font-normal text-[18px] lg:text-[21px] text-[#1a1a1a] leading-[1.2]">Platform</p>
             <div className="flex gap-[8px] lg:gap-[12px] justify-center lg:justify-start items-center w-full flex-wrap">
               {game.platforms.map(platform => (
-                <img key={platform.name} src={platform.icon} alt={platform.name} className="w-[24px] h-[24px] lg:w-[28px] lg:h-[28px] object-contain" title={platform.name} />
+                <img key={platform.name} src={`${import.meta.env.VITE_BACKEND_URL}${platform.icon}`} alt={platform.name} className="w-[24px] h-[24px] lg:w-[28px] lg:h-[28px] object-contain" title={platform.name} />
               ))}
             </div>
           </div>
@@ -183,7 +183,7 @@ export default function GameDetailPage() {
            >
              {slides.map((src, index) => (
                <div key={index} className={`relative w-[85vw] lg:w-[711px] h-[220px] md:h-[320px] lg:h-[400px] shrink-0 bg-gray-200 transition-shadow duration-500 rounded-[8px] overflow-hidden ${currentSlide === index ? 'shadow-[0px_10px_30px_rgba(0,0,0,0.3)] z-10' : 'shadow-none z-0'}`}>
-                 <img src={src} alt={`Preview ${index + 1}`} className="w-full h-full object-cover" />
+                 <img src={`${import.meta.env.VITE_BACKEND_URL}${src}`} alt={`Preview ${index + 1}`} className="w-full h-full object-cover" />
                  
                  {/* Play Button Overlay (Optional for Video) */}
                  {index === 0 && (

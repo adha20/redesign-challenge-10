@@ -5,7 +5,7 @@ export default function ClassificationCard({ title, desc, img }) {
     <div className="flex-none snap-center w-[85vw] lg:w-[991px] h-auto lg:h-[238px] rounded-[16px] bg-white border border-gray-100 shadow-[inset_0px_4px_6px_rgba(0,0,0,0.15),0px_4px_4px_rgba(0,0,0,0.05)] flex flex-col lg:flex-row gap-[16px] lg:gap-[14px] items-center lg:items-start px-[20px] lg:px-[36px] py-[24px] lg:py-[36px]">
       {/* Icon */}
       <div className="relative shrink-0 w-[100px] h-[100px] lg:w-[166px] lg:h-[166px]">
-        <img src={img} alt={title} className="w-full h-full object-contain" />
+        <img src={`${import.meta.env.VITE_BACKEND_URL}${img}`} alt={title} className="w-full h-full object-contain" />
       </div>
 
       {/* Text */}

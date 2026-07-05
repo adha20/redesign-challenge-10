@@ -25,6 +25,7 @@ const seedDatabase = async () => {
     await connection.query('TRUNCATE TABLE platforms');
     await connection.query('TRUNCATE TABLE ratings');
     await connection.query('TRUNCATE TABLE users');
+    await connection.query('TRUNCATE TABLE blogs');
     await connection.query('SET FOREIGN_KEY_CHECKS = 1');
 
     // 2. Insert Users (Hanya Admin)
@@ -41,19 +42,19 @@ const seedDatabase = async () => {
 
     // 3. Insert Ratings
     await connection.query(`INSERT INTO ratings (id, name, icon_url) VALUES 
-      (1, '3+', 'http://localhost:5000/uploads/assets/rating-3.png'),
-      (2, '7+', 'http://localhost:5000/uploads/assets/rating-7.png'),
-      (3, '13+', 'http://localhost:5000/uploads/assets/rating-13.png'),
-      (4, '15+', 'http://localhost:5000/uploads/assets/rating-15.png'),
-      (5, '18+', 'http://localhost:5000/uploads/assets/rating-18.png')
+      (1, '3+', '/uploads/assets/rating-3.png'),
+      (2, '7+', '/uploads/assets/rating-7.png'),
+      (3, '13+', '/uploads/assets/rating-13.png'),
+      (4, '15+', '/uploads/assets/rating-15.png'),
+      (5, '18+', '/uploads/assets/rating-18.png')
     `);
 
     // 4. Insert Platforms
     await connection.query(`INSERT INTO platforms (id, name, icon_url) VALUES 
-      (1, 'Windows', 'http://localhost:5000/uploads/assets/platform-windows.svg'),
-      (2, 'Android', 'http://localhost:5000/uploads/assets/platform-android.svg'),
-      (3, 'Playstation', 'http://localhost:5000/uploads/assets/platform-ps.svg'),
-      (4, 'iOS', 'http://localhost:5000/uploads/assets/platform-ios.svg')
+      (1, 'Windows', '/uploads/assets/platform-windows.svg'),
+      (2, 'Android', '/uploads/assets/platform-android.svg'),
+      (3, 'Playstation', '/uploads/assets/platform-ps.svg'),
+      (4, 'iOS', '/uploads/assets/platform-ios.svg')
     `);
 
     // 5. Insert Genres
@@ -63,7 +64,7 @@ const seedDatabase = async () => {
     `);
 
     // 6. Insert Content Descriptors
-    const baseUrl = 'http://localhost:5000/uploads';
+    const baseUrl = '/uploads';
     const descriptors = [
       { id: 2, name: 'Kekerasan', desc: 'Mengandung adegan perkelahian, penyerangan, penggunaan senjata, atau tindakan yang menyebabkan cedera terhadap karakter lain.', icon: `${baseUrl}/assets/class-kekerasan.png` },
       { id: 6, name: 'Horror', desc: 'Konten yang menampilkan unsur menakutkan, seperti makhluk menyeramkan, suasana mencekam, atau efek visual dan suara yang dapat memicu rasa takut pada pemain.', icon: `${baseUrl}/assets/class-horror.png` },
@@ -89,12 +90,12 @@ const seedDatabase = async () => {
           "Genshin Impact menawarkan eksplorasi dunia terbuka dengan berbagai aktivitas, seperti bertarung, menyelesaikan misi, memasak, mengumpulkan sumber daya, dan meningkatkan kemampuan karakter. Gim ini juga menghadirkan sistem pertarungan fantasi menggunakan senjata dan elemen sihir yang mengandung unsur kekerasan fantasi tanpa menampilkan visual yang realistis. Oleh karena itu, gim ini lebih sesuai dimainkan oleh pengguna pada kategori usia 13+ dengan deskriptor konten berupa Kekerasan dan Interaksi Daring, karena mendukung permainan secara daring dengan pemain lain."
         ]),
         rating_id: 3, // 13+
-        cover_image: "http://localhost:5000/uploads/games/genshin-cover.png",
+        cover_image: "/uploads/games/genshin-cover.png",
         gallery_images: JSON.stringify([
-          "http://localhost:5000/uploads/games/genshin-gallery-1.png",
-          "http://localhost:5000/uploads/games/genshin-gallery-2.png",
-          "http://localhost:5000/uploads/games/genshin-gallery-3.png",
-          "http://localhost:5000/uploads/games/genshin-gallery-4.png"
+          "/uploads/games/genshin-gallery-1.png",
+          "/uploads/games/genshin-gallery-2.png",
+          "/uploads/games/genshin-gallery-3.png",
+          "/uploads/games/genshin-gallery-4.png"
         ]),
         platforms: [1, 2, 3, 4], // Windows, Android, PS, iOS
         genres: [1, 2, 3], // Petualangan, Open World, RPG
@@ -105,8 +106,8 @@ const seedDatabase = async () => {
         publisher: "Kuro Games",
         description: JSON.stringify(["Wuthering Waves adalah game open-world action RPG yang berlatar di dunia pasca-apokaliptik dengan cerita yang mendalam dan kebebasan berekspresi dalam pertarungan."]),
         rating_id: 4, // 15+
-        cover_image: "http://localhost:5000/uploads/games/wuthering-waves.png",
-        gallery_images: JSON.stringify(["http://localhost:5000/uploads/games/wuthering-waves.png"]),
+        cover_image: "/uploads/games/wuthering-waves.png",
+        gallery_images: JSON.stringify(["/uploads/games/wuthering-waves.png"]),
         platforms: [1, 2, 4], // Windows, Android, iOS
         genres: [3, 2, 1], // RPG, Open World, Petualangan
         descriptors: [2] // Kekerasan
@@ -116,8 +117,8 @@ const seedDatabase = async () => {
         publisher: "Hotta Studio",
         description: JSON.stringify(["Game Sci-Fi Open World RPG dengan kebebasan kustomisasi dan sistem pertarungan yang intens."]),
         rating_id: 4, // 15+
-        cover_image: "http://localhost:5000/uploads/games/tower-of-fantasy.png",
-        gallery_images: JSON.stringify(["http://localhost:5000/uploads/games/tower-of-fantasy.png"]),
+        cover_image: "/uploads/games/tower-of-fantasy.png",
+        gallery_images: JSON.stringify(["/uploads/games/tower-of-fantasy.png"]),
         platforms: [1, 2], // Windows, Android
         genres: [3, 2], // RPG, Open World
         descriptors: [1] // Interaksi Daring
@@ -127,8 +128,8 @@ const seedDatabase = async () => {
         publisher: "Pearl Abyss",
         description: JSON.stringify(["Game MMORPG aksi kelas dunia dengan sistem pertarungan non-targeting dan grafis luar biasa."]),
         rating_id: 5, // 18+
-        cover_image: "http://localhost:5000/uploads/games/black-desert.png",
-        gallery_images: JSON.stringify(["http://localhost:5000/uploads/games/black-desert.png"]),
+        cover_image: "/uploads/games/black-desert.png",
+        gallery_images: JSON.stringify(["/uploads/games/black-desert.png"]),
         platforms: [2, 4], // Android, iOS
         genres: [3, 1], // RPG, Petualangan
         descriptors: [2] // Kekerasan
@@ -138,8 +139,8 @@ const seedDatabase = async () => {
         publisher: "Sandbox Interactive",
         description: JSON.stringify(["Game Sandbox MMORPG di mana ekonomi digerakkan sepenuhnya oleh pemain."]),
         rating_id: 4, // 15+
-        cover_image: "http://localhost:5000/uploads/games/albion.png",
-        gallery_images: JSON.stringify(["http://localhost:5000/uploads/games/albion.png"]),
+        cover_image: "/uploads/games/albion.png",
+        gallery_images: JSON.stringify(["/uploads/games/albion.png"]),
         platforms: [1, 2], // Windows, Android
         genres: [3, 2], // RPG, Open World
         descriptors: [1] // Interaksi Daring
@@ -149,8 +150,8 @@ const seedDatabase = async () => {
         publisher: "Archosaur Games",
         description: JSON.stringify(["MMORPG dengan grafis memukau yang dibangun menggunakan Unreal Engine 4."]),
         rating_id: 4, // 15+
-        cover_image: "http://localhost:5000/uploads/games/dragon-raja.png",
-        gallery_images: JSON.stringify(["http://localhost:5000/uploads/games/dragon-raja.png"]),
+        cover_image: "/uploads/games/dragon-raja.png",
+        gallery_images: JSON.stringify(["/uploads/games/dragon-raja.png"]),
         platforms: [2, 4], // Android, iOS
         genres: [3], // RPG
         descriptors: [1] // Interaksi Daring
@@ -160,8 +161,8 @@ const seedDatabase = async () => {
         publisher: "thatgamecompany",
         description: JSON.stringify(["Eksplorasi dunia magis yang menenangkan, berinteraksi dan membentuk ikatan dengan pemain lain di seluruh dunia."]),
         rating_id: 1, // 3+
-        cover_image: "http://localhost:5000/uploads/games/sky.png",
-        gallery_images: JSON.stringify(["http://localhost:5000/uploads/games/sky.png"]),
+        cover_image: "/uploads/games/sky.png",
+        gallery_images: JSON.stringify(["/uploads/games/sky.png"]),
         platforms: [2, 4], // Android, iOS
         genres: [1, 7], // Petualangan, Puzzle
         descriptors: [1] // Interaksi Daring
@@ -171,8 +172,8 @@ const seedDatabase = async () => {
         publisher: "Mojang Studios",
         description: JSON.stringify(["Game sandbox legendaris yang memberikan kebebasan tanpa batas untuk membangun dan bertahan hidup."]),
         rating_id: 2, // 7+
-        cover_image: "http://localhost:5000/uploads/games/minecraft.png",
-        gallery_images: JSON.stringify(["http://localhost:5000/uploads/games/minecraft.png"]),
+        cover_image: "/uploads/games/minecraft.png",
+        gallery_images: JSON.stringify(["/uploads/games/minecraft.png"]),
         platforms: [1, 3], // Windows, Playstation
         genres: [4, 5, 2], // Survival, Simulasi, Open World
         descriptors: [1] // Interaksi Daring
@@ -182,8 +183,8 @@ const seedDatabase = async () => {
         publisher: "Lightspeed Studios (Tencent)",
         description: JSON.stringify(["Game open world survival menantang di dunia pasca-apokaliptik yang dipenuhi zombie."]),
         rating_id: 5, // 18+
-        cover_image: "http://localhost:5000/uploads/games/undawn.png",
-        gallery_images: JSON.stringify(["http://localhost:5000/uploads/games/undawn.png"]),
+        cover_image: "/uploads/games/undawn.png",
+        gallery_images: JSON.stringify(["/uploads/games/undawn.png"]),
         platforms: [1, 2], // Windows, Android
         genres: [4, 6, 2], // Survival, Shooter, Open World
         descriptors: [2] // Kekerasan
@@ -193,8 +194,8 @@ const seedDatabase = async () => {
         publisher: "Seasun Games",
         description: JSON.stringify(["Game survival RPG dengan sistem crafting dan eksplorasi dunia terbuka yang indah."]),
         rating_id: 4, // 15+
-        cover_image: "http://localhost:5000/uploads/games/dawnlands.png",
-        gallery_images: JSON.stringify(["http://localhost:5000/uploads/games/dawnlands.png"]),
+        cover_image: "/uploads/games/dawnlands.png",
+        gallery_images: JSON.stringify(["/uploads/games/dawnlands.png"]),
         platforms: [1, 2], // Windows, Android
         genres: [4, 3], // Survival, RPG
         descriptors: [1] // Interaksi Daring
@@ -219,17 +220,17 @@ const seedDatabase = async () => {
       {
         title: "Dewasa Sebelum Menginjak Dewasa?",
         desc: "Perkembangan industri gim menghadirkan beragam pilihan hiburan yang dapat dinikmati oleh semua kalangan. Namun, di balik manfaat tersebut, terdapat tantangan yang perlu...",
-        img: "http://localhost:5000/uploads/assets/blog-1.png"
+        img: "/uploads/assets/blog-1.png"
       },
       {
         title: "Klasifikasi Usia Gim Mobile Legends Resmi Berubah",
         desc: "Mobile Legends merupakan salah satu gim yang paling populer di Indonesia dan dimainkan oleh berbagai kelompok usia. Seiring dengan perkembangan konten, fitur, serta...",
-        img: "http://localhost:5000/uploads/assets/blog-2.png"
+        img: "/uploads/assets/blog-2.png"
       },
       {
         title: "Block Blast: Gim Sederhana Pengasah Kemampuan Berpikir",
         desc: "Di tengah banyaknya gim bergenre aksi dan kompetitif, Block Blast hadir sebagai permainan puzzle yang menawarkan pengalaman bermain sederhana namun tetap...",
-        img: "http://localhost:5000/uploads/assets/blog-3.png"
+        img: "/uploads/assets/blog-3.png"
       }
     ];
 

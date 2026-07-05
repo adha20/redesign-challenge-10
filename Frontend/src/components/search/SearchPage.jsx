@@ -144,7 +144,7 @@ export default function SearchPage() {
                 <div key={game.id} onClick={() => navigate(`/game/${game.id}`)} className="w-full bg-white rounded-[24px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.15)] flex flex-col md:flex-row items-center justify-between px-[20px] lg:px-[36px] py-[20px] hover:-translate-y-1 transition-transform cursor-pointer gap-[16px] md:gap-0">
                   <div className="flex flex-col md:flex-row items-center gap-[16px] lg:gap-[36px]">
                     <div className="w-[100px] h-[100px] lg:w-[120px] lg:h-[120px] rounded-[24px] border-[6px] lg:border-[8px] border-[#2367ce] overflow-hidden shrink-0">
-                      <img src={game.coverImage} alt={game.title} className="w-full h-full object-cover" />
+                      <img src={`${import.meta.env.VITE_BACKEND_URL}${game.coverImage}`} alt={game.title} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex flex-col gap-[4px] text-[#1a1a1a] text-center md:text-left">
                       <h3 className="font-extrabold text-[20px] lg:text-[27px] leading-[1.2]">{game.title}</h3>
@@ -152,7 +152,7 @@ export default function SearchPage() {
                     </div>
                   </div>
                   <div className="w-[60px] h-[60px] lg:w-[80px] lg:h-[80px] shrink-0">
-                    <img src={game.rating.icon} alt={`Rating ${game.rating.age}`} className="w-full h-full object-contain" />
+                    <img src={`${import.meta.env.VITE_BACKEND_URL}${game.rating.icon}`} alt={`Rating ${game.rating.age}`} className="w-full h-full object-contain" />
                   </div>
                 </div>
               ))

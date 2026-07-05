@@ -42,7 +42,7 @@ export default function RatingSection() {
             >
               <div className="w-full aspect-square">
                 <img 
-                  src={rating.src} 
+                  src={`${import.meta.env.VITE_BACKEND_URL}${rating.src}`} 
                   alt={rating.title} 
                   loading="lazy"
                   className="w-full h-full object-cover" 
