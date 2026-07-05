@@ -7,8 +7,10 @@ export default function SearchPage() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
   const [games, setGames] = useState([]); // Inisialisasi kosong
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${import.meta.env.VITE_BACKEND_URL}/api/games`)
       .then(res => res.json())
       .then(data => {
@@ -28,8 +30,12 @@ export default function SearchPage() {
           }));
           setGames(mappedGames);
         }
+        setIsLoading(false);
       })
-      .catch(err => console.error("Error fetching games:", err));
+      .catch(err => {
+        console.error("Error fetching games:", err);
+        setIsLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -136,23 +142,37 @@ export default function SearchPage() {
         <div className="w-full flex flex-col-reverse lg:flex-row justify-between items-start gap-[40px] lg:gap-0">
           
           {/* Left Side: Search Results */}
-          <div className="w-full lg:w-[767px] flex flex-col gap-[16px] shrink-0">
-            
-            {/* Dynamic Result Cards */}
-            {filteredGames.length > 0 ? (
-              filteredGames.map(game => (
-                <div key={game.id} onClick={() => navigate(`/game/${game.id}`)} className="w-full bg-white rounded-[24px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.15)] flex flex-col md:flex-row items-center justify-between px-[20px] lg:px-[36px] py-[20px] hover:-translate-y-1 transition-transform cursor-pointer gap-[16px] md:gap-0">
-                  <div className="flex flex-col md:flex-row items-center gap-[16px] lg:gap-[36px]">
-                    <div className="w-[100px] h-[100px] lg:w-[120px] lg:h-[120px] rounded-[24px] border-[6px] lg:border-[8px] border-[#2367ce] overflow-hidden shrink-0">
-                      <img src={`${import.meta.env.VITE_BACKEND_URL}${game.coverImage}`} alt={game.title} className="w-full h-full object-cover" />
+          <div className="flex-1 flex flex-col gap-[16px] lg:gap-[20px] order-last lg:order-none">
+            {isLoading ? (
+              // Skeleton Loading Animation
+              Array.from({ length: 3 }).map((_, idx) => (
+                <div key={idx} className="w-full bg-white rounded-[24px] lg:rounded-[36px] shadow-sm flex flex-row items-center p-[16px] lg:p-[20px] lg:pr-[30px] justify-between relative overflow-hidden animate-pulse">
+                  <div className="flex flex-row items-center gap-[16px] lg:gap-[20px] w-full">
+                    <div className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] rounded-[16px] lg:rounded-[24px] bg-gray-200 shrink-0"></div>
+                    <div className="flex flex-col gap-[8px] flex-1 py-[10px]">
+                      <div className="h-[24px] lg:h-[32px] bg-gray-200 rounded-[8px] w-3/4"></div>
+                      <div className="h-[20px] lg:h-[24px] bg-gray-200 rounded-[8px] w-1/2"></div>
                     </div>
-                    <div className="flex flex-col gap-[4px] text-[#1a1a1a] text-center md:text-left">
+                  </div>
+                  <div className="w-[60px] h-[60px] lg:w-[80px] lg:h-[80px] shrink-0 bg-gray-200 rounded-full"></div>
+                </div>
+              ))
+            ) : filteredGames.length > 0 ? (
+              filteredGames.map(game => (
+                <div key={game.id} onClick={() => navigate(`/game/${game.id}`)} className="w-full bg-white rounded-[24px] lg:rounded-[36px] shadow-sm flex flex-row items-center p-[16px] lg:p-[20px] lg:pr-[30px] justify-between relative overflow-hidden cursor-pointer hover:shadow-md transition-shadow group">
+                  <div className="absolute top-0 right-0 h-full w-[20px] lg:w-[35px] bg-[#2367ce] scale-x-0 group-hover:scale-x-100 origin-right transition-transform duration-300"></div>
+                  
+                  <div className="flex flex-row items-center gap-[16px] lg:gap-[20px] w-full">
+                    <div className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] rounded-[16px] lg:rounded-[24px] overflow-hidden shrink-0">
+                      <img src={game.coverImage.startsWith('http') ? game.coverImage : `${import.meta.env.VITE_BACKEND_URL}${game.coverImage}`} alt={game.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    </div>
+                    <div className="flex flex-col justify-center flex-1 py-[10px]">
                       <h3 className="font-extrabold text-[20px] lg:text-[27px] leading-[1.2]">{game.title}</h3>
                       <p className="font-normal text-[16px] lg:text-[21px] leading-[1.5]">{game.publisher}</p>
                     </div>
                   </div>
                   <div className="w-[60px] h-[60px] lg:w-[80px] lg:h-[80px] shrink-0">
-                    <img src={`${import.meta.env.VITE_BACKEND_URL}${game.rating.icon}`} alt={`Rating ${game.rating.age}`} className="w-full h-full object-contain" />
+                    <img src={game.rating.icon.startsWith('http') ? game.rating.icon : `${import.meta.env.VITE_BACKEND_URL}${game.rating.icon}`} alt={`Rating ${game.rating.age}`} className="w-full h-full object-contain" />
                   </div>
                 </div>
               ))
