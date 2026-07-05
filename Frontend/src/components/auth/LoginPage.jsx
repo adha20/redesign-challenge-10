@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../ui/Button';
-import { dummyUsers } from '../../data/users';
+
 
 export default function LoginPage() {
 

@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 
 export function useInfiniteSlider(items, itemWidthLg = 1069, itemWidthRatioSm = 0.85, paddingSm = 16, autoScrollInterval = 4000) {
   const scrollRef = useRef(null);
@@ -6,9 +6,9 @@ export function useInfiniteSlider(items, itemWidthLg = 1069, itemWidthRatioSm = 
   const isInitialized = useRef(false);
   const scrollTimeoutRef = useRef(null);
 
-  const getScrollAmount = () => {
+  const getScrollAmount = useCallback(() => {
     return window.innerWidth >= 1024 ? itemWidthLg : (window.innerWidth * itemWidthRatioSm) + paddingSm;
-  };
+  }, [itemWidthLg, itemWidthRatioSm, paddingSm]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -18,7 +18,7 @@ export function useInfiniteSlider(items, itemWidthLg = 1069, itemWidthRatioSm = 
     }, autoScrollInterval);
 
     return () => clearInterval(timer);
-  }, [autoScrollInterval]);
+  }, [autoScrollInterval, getScrollAmount]);
 
   const handleScrollEvent = () => {
     if (scrollRef.current) {
@@ -73,7 +73,7 @@ export function useInfiniteSlider(items, itemWidthLg = 1069, itemWidthRatioSm = 
       scrollRef.current.scrollLeft = items.length * getScrollAmount();
       isInitialized.current = true;
     }
-  }, [items]);
+  }, [items, getScrollAmount]);
 
   // Extended items (left, center, right sets)
   const extendedItems = [
