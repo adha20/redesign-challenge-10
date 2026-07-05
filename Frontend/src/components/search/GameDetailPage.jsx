@@ -6,8 +6,10 @@ export default function GameDetailPage() {
   const navigate = useNavigate();
   
   const [game, setGame] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${import.meta.env.VITE_BACKEND_URL}/api/games`)
       .then(res => res.json())
       .then(data => {
@@ -31,8 +33,12 @@ export default function GameDetailPage() {
             setGame(mappedGame);
           }
         }
+        setIsLoading(false);
       })
-      .catch(err => console.error("Error fetching game details:", err));
+      .catch(err => {
+        console.error("Error fetching game details:", err);
+        setIsLoading(false);
+      });
   }, [id]);
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -62,6 +68,44 @@ export default function GameDetailPage() {
     const slideInterval = setInterval(nextSlide, 3000);
     return () => clearInterval(slideInterval);
   }, [game, nextSlide]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full bg-white relative flex flex-col items-center pt-[30px] lg:pt-[50px] pb-[60px] lg:pb-[100px] min-h-screen overflow-hidden animate-pulse">
+        {/* Search Input Bar Skeleton */}
+        <div className="w-[90%] lg:w-full max-w-[709px] mx-auto h-[50px] lg:h-[67px] bg-gray-200 rounded-[222px] drop-shadow-[0px_4px_2px_rgba(0,0,0,0.15)] z-20"></div>
+
+        {/* Carousel Skeleton */}
+        <div className="w-full mt-[30px] lg:mt-[50px] overflow-hidden flex flex-col items-center z-10">
+          <div className="w-[85vw] lg:w-[735px] h-[50vw] lg:h-[432px] bg-gray-200 rounded-[20px] lg:rounded-[36px]"></div>
+        </div>
+
+        {/* Main Content Skeleton */}
+        <div className="w-full max-w-[1080px] mx-auto mt-[40px] lg:mt-[60px] flex flex-col lg:flex-row justify-between items-center lg:items-start gap-[40px] lg:gap-0 px-[20px] lg:px-0">
+          
+          {/* Left Side Skeleton */}
+          <div className="w-full lg:w-[643px] flex flex-col gap-[24px] lg:gap-[40px] shrink-0">
+            <div className="flex flex-col md:flex-row gap-[24px] lg:gap-[36px] items-center md:items-start text-center md:text-left">
+              <div className="w-[100px] h-[100px] lg:w-[120px] lg:h-[120px] rounded-[24px] bg-gray-200 shrink-0 shadow-sm"></div>
+              <div className="flex flex-col gap-[12px] pt-0 md:pt-[16px] lg:pt-[32px] w-[200px] lg:w-[300px]">
+                <div className="h-[30px] lg:h-[36px] bg-gray-200 rounded-[8px] w-full"></div>
+                <div className="h-[20px] lg:h-[24px] bg-gray-200 rounded-[8px] w-[70%]"></div>
+              </div>
+            </div>
+            <div className="w-full flex flex-col gap-[12px]">
+              <div className="h-[20px] bg-gray-200 rounded-[8px] w-full"></div>
+              <div className="h-[20px] bg-gray-200 rounded-[8px] w-[95%]"></div>
+              <div className="h-[20px] bg-gray-200 rounded-[8px] w-[90%]"></div>
+              <div className="h-[20px] bg-gray-200 rounded-[8px] w-[80%]"></div>
+            </div>
+          </div>
+
+          {/* Right Side Skeleton */}
+          <div className="w-full md:w-[80%] lg:w-[389px] bg-gray-100 rounded-[24px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.15)] h-[400px] lg:h-[500px]"></div>
+        </div>
+      </div>
+    );
+  }
 
   if (!game) {
     return (
