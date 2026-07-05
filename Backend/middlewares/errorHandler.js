@@ -8,7 +8,8 @@ const { sendError } = require("../utils/responses");
  */
 const errorHandler = (err, req, res, next) => {
   // Tampilkan error di console untuk proses debugging
-  console.error(err);
+  //   console.error(err);
+  console.error(`[${req.method}] ${req.originalUrl} - ${error.message}`);
 
   // Ambil status code, default 500 jika tidak tersedia
   const statusCode = err.statusCode || 500;
