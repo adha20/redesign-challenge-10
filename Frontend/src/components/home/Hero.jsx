@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StatCard from '../ui/StatCard';
 
-import imgImage6 from '../../assets/image6.png';
-import imgImage2 from '../../assets/image2.png';
-import imgImage3 from '../../assets/image3.png';
-const img72 = 'http://localhost:5000/uploads/assets/rating-3.png';
-const img42 = 'http://localhost:5000/uploads/assets/rating-7.png';
-const img512 = 'http://localhost:5000/uploads/assets/rating-13.png';
-const img282 = 'http://localhost:5000/uploads/assets/rating-15.png';
-const img62 = 'http://localhost:5000/uploads/assets/rating-18.png';
+import heroBanner1 from '../../assets/hero-banner-1.png';
+import heroBanner2 from '../../assets/hero-banner-2.png';
+import heroBanner3 from '../../assets/hero-banner-3.png';
+const img72 = `${import.meta.env.VITE_BACKEND_URL}/uploads/assets/rating-3.png`;
+const img42 = `${import.meta.env.VITE_BACKEND_URL}/uploads/assets/rating-7.png`;
+const img512 = `${import.meta.env.VITE_BACKEND_URL}/uploads/assets/rating-13.png`;
+const img282 = `${import.meta.env.VITE_BACKEND_URL}/uploads/assets/rating-15.png`;
+const img62 = `${import.meta.env.VITE_BACKEND_URL}/uploads/assets/rating-18.png`;
 
 export default function Hero() {
   const [heroSearch, setHeroSearch] = useState('');
@@ -71,14 +71,14 @@ export default function Hero() {
             
           {/* Gambar Dekorasi Tengah (Image 6) */}
           <div className="absolute left-1/2 -translate-x-1/2 top-[280px] lg:top-[295px] w-[75%] lg:w-[524px] h-[180px] lg:h-[318px] rounded-[16px] lg:rounded-[36px] shadow-custom-float z-30 overflow-hidden pointer-events-auto">
-            <img alt="Hero Center" className="w-full h-full object-cover" src={imgImage6} />
+            <img alt="Hero Center" className="w-full h-full object-cover" src={heroBanner1} />
           </div>
 
           {/* Gambar Kiri Miring (Image 2) */}
           <div className="flex absolute left-[-2%] lg:left-[139px] top-[380px] lg:top-[494px] w-[55%] lg:w-[555px] h-[140px] lg:h-[354px] z-20 items-center justify-center pointer-events-none">
             <div className="flex-none -rotate-[6.75deg] w-full lg:w-auto h-full lg:h-auto">
               <div className="w-full lg:w-[524px] h-full lg:h-[295px] rounded-[16px] lg:rounded-[36px] overflow-hidden shadow-custom-float pointer-events-auto">
-                <img alt="Hero Left" className="w-full h-full object-cover" src={imgImage2} />
+                <img alt="Hero Left" className="w-full h-full object-cover" src={heroBanner2} />
               </div>
             </div>
           </div>
@@ -87,7 +87,7 @@ export default function Hero() {
           <div className="flex absolute right-[-2%] lg:right-auto lg:left-[517px] top-[400px] lg:top-[522px] w-[55%] lg:w-[575px] h-[140px] lg:h-[400px] z-10 items-center justify-center pointer-events-none">
             <div className="flex-none rotate-[12.33deg] w-full lg:w-auto h-full lg:h-auto">
               <div className="w-full lg:w-[524px] h-full lg:h-[295px] rounded-[16px] lg:rounded-[36px] overflow-hidden shadow-custom-float pointer-events-auto">
-                <img alt="Hero Right" className="w-full h-full object-cover" src={imgImage3} />
+                <img alt="Hero Right" className="w-full h-full object-cover" src={heroBanner3} />
               </div>
             </div>
           </div>
