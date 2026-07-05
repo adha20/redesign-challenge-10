@@ -178,17 +178,6 @@ export default function RegisterGamePage() {
             </div>
           </div>
 
-          {/* Tautan Gim */}
-          <div className="w-full lg:w-[984px] flex flex-col gap-[8px]">
-            <label className="text-[16px] lg:text-[21px] text-[#1a1a1a] font-normal leading-[1.5]">
-              Tautan Gim / URL <span className="text-[#ce2323]">*</span>
-            </label>
-            <input 
-              type="text"
-              placeholder="Masukkan Tautan"
-              className="bg-white border border-[#f0f0f0] rounded-[222px] px-[24px] lg:px-[50px] py-[10px] w-full outline-none text-[16px] lg:text-[21px] text-[#1a1a1a] placeholder:text-[#1a1a1a] placeholder:opacity-50 shadow-[0_6px_8px_-2px_rgba(0,0,0,0.15)]"
-            />
-          </div>
 
           {/* File Pendukung */}
           <div className="w-full lg:w-[984px] flex flex-col gap-[10px] mt-[10px] items-start shrink-0">
@@ -249,7 +238,7 @@ export default function RegisterGamePage() {
           </div>
 
           {/* Tombol Daftar */}
-          <div className="mt-[20px] lg:mt-[30px] w-full lg:w-[984px]">
+          <div className="mt-[10px] lg:mt-[16px] w-full lg:w-[984px]">
             <Button 
               className="!w-full !justify-center !py-[12px] lg:!py-[16px] !rounded-[222px] shadow-md"
             >
