@@ -9,7 +9,8 @@ const seedDatabase = async () => {
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
-      database: dbName
+      database: dbName,
+      ssl: process.env.DB_HOST && process.env.DB_HOST.includes('tidbcloud') ? { minVersion: 'TLSv1.2', rejectUnauthorized: true } : undefined
     });
 
     console.log('Mulai melakukan seeding data...');

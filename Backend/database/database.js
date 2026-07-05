@@ -5,7 +5,8 @@ require('dotenv').config();
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD
+  password: process.env.DB_PASSWORD,
+  ssl: process.env.DB_HOST && process.env.DB_HOST.includes('tidbcloud') ? { minVersion: 'TLSv1.2', rejectUnauthorized: true } : undefined
 });
 
 // Helper function untuk menjalankan query menggunakan Promise agar eksekusi tabel berurutan
